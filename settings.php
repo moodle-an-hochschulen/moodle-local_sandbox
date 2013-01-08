@@ -57,7 +57,7 @@ if ($hassiteconfig) {
 	$levels[LEVEL_NOTICE] = get_string('notice', 'core');
 	$levels[LEVEL_WARNING] = get_string('warning', 'core');
 	$levels[LEVEL_ERROR] = get_string('error', 'core');
-	$page->add(new admin_setting_configselect('local_sandbox/notifylevel', get_string('notifylevel', 'local_sandbox'), get_string('notifyleveldescription', 'local_sandbox'), $levels[LEVEL_ERROR], $levels));
+	$page->add(new admin_setting_configselect('local_sandbox/notifylevel', get_string('notifylevel', 'local_sandbox'), get_string('notifyleveldescription', 'local_sandbox'), LEVEL_ERROR, $levels));
 
 
 	// Add settings page to navigation tree
