@@ -10,6 +10,7 @@ This plugin requires Moodle 2.3+
 
 Changes
 =======
+2013-01-21 - Bugfix: Fix flaw in german language pack
 2013-01-08 - Initial version
 
 
