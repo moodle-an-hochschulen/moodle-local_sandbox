@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die;
+
 $string['pluginname'] = 'Sandbox';
 $string['adjustcoursestartdate'] = 'Adjust course start date';
 $string['adjustcoursestartdate_desc'] = 'Set course start date to today instead of setting it to the date saved in the course backup file';

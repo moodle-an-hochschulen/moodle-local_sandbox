@@ -10,6 +10,7 @@ This plugin requires Moodle 2.4+
 
 Changes
 =======
+2013-03-18 - Small code optimization, Code cleanup according to moodle codechecker
 2013-02-19 - German language has been integrated into AMOS and was removed from this plugin. Please update your language packs with http://YOURMOODLEURL/admin/tool/langimport/index.php after installing this plugin version
 2013-02-18 - Check compatibility for Moodle 2.4, fix language string names to comply with language string name convention
 2013-01-21 - Bugfix: Fix flaw in german language pack
@@ -66,6 +67,12 @@ Moodle release support
 Due to limited ressources, local_sandbox is only maintained for the most recent major release of Moodle. However, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
 
 There may be several weeks after a new major release of Moodle has been published until I can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that local_sandbox still works with a new major relase - please let me know on https://github.com/abias/moodle-local_sandbox/issues
+
+
+Right-to-left support
+=====================
+This plugin has not been tested with Moodle's support for right-to-left (RTL) languages.
+If you want to use this plugin with a RTL language and it doesn't work as-is, you are free to send me a pull request on github with modifications.
 
 
 Copyright
