@@ -10,6 +10,7 @@ This plugin requires Moodle 2.4+
 
 Changes
 =======
+2013-04-23 - Check if we need to specify log events
 2013-03-18 - Small code optimization, Code cleanup according to moodle codechecker
 2013-02-19 - German language has been integrated into AMOS and was removed from this plugin. Please update your language packs with http://YOURMOODLEURL/admin/tool/langimport/index.php after installing this plugin version
 2013-02-18 - Check compatibility for Moodle 2.4, fix language string names to comply with language string name convention

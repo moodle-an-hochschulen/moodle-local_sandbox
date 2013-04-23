@@ -210,7 +210,8 @@ function local_sandbox_cron() {
                             inform_admin(get_string('successrestored', 'local_sandbox', $shortname), SANDBOX_LEVEL_NOTICE);
 
                             // Add entry to Moodle log
-                            add_to_log($newcourseid, 'local_sandbox', 'course restore');
+                            add_to_log($newcourseid, 'local_sandbox', 'course restore'); // TODO: Specify log events in db/log.php, see http://docs.moodle.org/dev/Logging_API#Mod.2F.2A.2Fdb.2Flog.php_Files
+
 
                             // Fire event
                             $course = $DB->get_record('course', array('id'=>$newcourseid));
