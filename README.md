@@ -5,11 +5,13 @@ Moodle plugin which programatically restores courses to predefined course states
 
 Requirements
 ============
-This plugin requires Moodle 2.4+
+This plugin requires Moodle 2.5+
 
 
 Changes
 =======
+2013-07-30 - Transfer Github repository from github.com/abias/... to github.com/moodleuulm/...; Please update your Git paths if necessary
+2013-07-30 - Check compatibility for Moodle 2.5, fixed a timezone flaw which caused sandbox to run at the wrong hour when system timezone was not GMT
 2013-04-23 - Check if we need to specify log events
 2013-03-18 - Small code optimization, Code cleanup according to moodle codechecker
 2013-02-19 - German language has been integrated into AMOS and was removed from this plugin. Please update your language packs with http://YOURMOODLEURL/admin/tool/langimport/index.php after installing this plugin version
@@ -23,7 +25,7 @@ Installation
 Install the plugin like any other plugin to folder
 /local/sandbox
 
-See http://docs.moodle.org/24/en/Installing_plugins for details on installing Moodle plugins
+See http://docs.moodle.org/25/en/Installing_plugins for details on installing Moodle plugins
 
 
 Usage & Settings
@@ -56,18 +58,26 @@ Themes
 The local_sandbox plugin acts behind the scenes, therefore it works with all moodle themes.
 
 
+Secure path configuration in Moodle 2.5+
+========================================
+Since Moodle 2.5, it is possible to disable setting executable paths in config.php with $CFG->preventexecpath = true (please have a look at your config-dist.php for documentation about this feature).
+
+If (and only if) you use this option, it is not possible to configure the paths to the course backup directory on the Moodle settings pages.
+For configuring the paths to the course backup directory, please set $CFG->preventexecpath = false in your config.php temporarily.
+
+
 Further information
 ===================
 local_sandbox is found in the Moodle Plugins repository: http://moodle.org/plugins/view.php?plugin=local_sandbox
 
-Report a bug or suggest an improvement: https://github.com/abias/moodle-local_sandbox/issues
+Report a bug or suggest an improvement: https://github.com/moodleuulm/moodle-local_sandbox/issues
 
 
 Moodle release support
 ======================
 Due to limited ressources, local_sandbox is only maintained for the most recent major release of Moodle. However, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
 
-There may be several weeks after a new major release of Moodle has been published until I can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that local_sandbox still works with a new major relase - please let me know on https://github.com/abias/moodle-local_sandbox/issues
+There may be several weeks after a new major release of Moodle has been published until I can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that local_sandbox still works with a new major relase - please let me know on https://github.com/moodleuulm/moodle-local_sandbox/issues
 
 
 Right-to-left support

@@ -71,11 +71,9 @@ function local_sandbox_cron() {
     }
 
 
-    // Gets the admin user time relatively to the server time.
-    $admin = get_admin();
+    // Gets the time according to the server timezone.
     $now = time();
-    $date = usergetdate($now, $admin->timezone);
-    $usertime = mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']);
+    $date = usergetdate($now);
 
 
     // Continue only when today is run day
@@ -89,7 +87,7 @@ function local_sandbox_cron() {
 
 
     // Continue only when run time is reached and sandbox hasn't run already today
-    $todayruntime = mktime($config->cronruntimehour, $config->cronruntimemin, 0, $date['mon'], $date['mday'], $date['year']);
+    $todayruntime = make_timestamp($date['year'], $date['mon'], $date['mday'], $config->cronruntimehour, $config->cronruntimemin);
     if ($now < $todayruntime || $lastcron > $todayruntime) {
         // Output info message for cron listing
         echo "\n\t".get_string('exitingnoneed', 'local_sandbox')."\n";
