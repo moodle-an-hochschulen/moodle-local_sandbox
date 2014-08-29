@@ -14,10 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die;
+/**
+ * Local plugin "sandbox" - Scheduled Tasks
+ *
+ * @package     local
+ * @subpackage  local_sandbox
+ * @copyright   2013 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$plugin->component = 'local_sandbox';
-$plugin->version = 2014051200;
-$plugin->release = '2.7 (Build: 2014082200)';
-$plugin->requires = 2014051200;
-$plugin->maturity = MATURITY_STABLE;
+defined('MOODLE_INTERNAL') || die();
+
+$tasks = array(
+    array(
+        'classname' => 'local_sandbox\task\restore_courses',
+        'blocking' => 1,
+        'minute' => '0',
+        'hour' => '1',
+        'day' => '*',
+        'dayofweek' => '0',
+        'month' => '*',
+        'disabled' => 1
+    ),
+);

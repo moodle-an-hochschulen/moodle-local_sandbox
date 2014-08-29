@@ -35,16 +35,13 @@ if ($hassiteconfig) {
     // Execution time
     $page->add(new admin_setting_heading('local_sandbox/cronruntimeheading', get_string('cronruntimeheading', 'local_sandbox'), ''));
 
-    // Create days chooser widget
-    $days = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
-    foreach ($days as $d) {
-        $dayschoices[] = get_string($d, 'calendar');
-    }
-    $page->add(new admin_setting_configmulticheckbox2('local_sandbox/cronrunday', get_string('cronrunday', 'local_sandbox'), get_string('cronrunday_desc', 'local_sandbox'), array(), $dayschoices));
-
-    // Create cron run time widget
-    $page->add(new admin_setting_configtime('local_sandbox/cronruntimehour', 'cronruntimemin', get_string('cronruntime', 'local_sandbox'), get_string('cronruntime_desc', 'local_sandbox'), array('h' => 3, 'm' => 0)));
-
+    $html = html_writer::tag('p', get_string('cronruntimescheduledtasksmanagement', 'local_sandbox'));
+    $html .= html_writer::tag('p', get_string('cronruntimescheduledtasksactivate', 'local_sandbox'));
+    $html .= html_writer::tag('p', get_string('cronruntimescheduledtasksstandardtime', 'local_sandbox'));
+    $html .= html_writer::start_tag('p');
+    $html .= html_writer::link(new moodle_url('/admin/tool/task/scheduledtasks.php'), get_string('scheduledtasks', 'tool_task'));
+    $html .= html_writer::end_tag('p');
+    $page->add(new admin_setting_heading('local_sandbox/cronruntimehint', '', $html));
 
     // Course backups
     $page->add(new admin_setting_heading('local_sandbox/coursebackupsheading', get_string('coursebackupsheading', 'local_sandbox'), ''));
