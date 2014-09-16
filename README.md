@@ -10,6 +10,9 @@ This plugin requires Moodle 2.7+
 
 Changes
 -------
+* 2014-09-16 - Bugfix: Sandbox didn't restore courses when option to set the course start date to today was set to on
+* 2014-09-16 - Fix typo in english language pack
+* 2014-09-16 - Update README file
 * 2014-08-29 - Update README file
 * 2014-08-25 - Support new task API, remove legacy cron functions - Existing execution time settings have _not_ been migrated to the scheduled tasks system. The plugin's scheduled task is disabled after the upgrade and the execution time is set to the plugin's default value, please check Moodle's scheduled task settings to configure and reenable the plugin according to your needs
 * 2014-06-30 - Add plugin's name as prefix to function names
@@ -43,7 +46,11 @@ There, you find three sections:
 
 ### 1. Execution time
 
-In this section, you define on which days and when on each day local_sandbox should restore the courses.
+From Moodle 2.7 on, Moodle core supports a system called "Scheduled tasks". The execution time settings of the sandbox plugin, which have been configured in this section until Moodle 2.6, can be now configured in the "Scheduled tasks" system.
+
+By default, sandbox's scheduled task is disabled in the "Scheduled tasks" system. You have to enable it there to make use of this plugin.
+
+By default, sandbox's scheduled task is set to run every sunday on 1:00 GMT in the "Scheduled tasks" system. Please change this time according to your needs.
 
 ### 2. Course backups
 

@@ -153,7 +153,7 @@ class restore_courses extends \core\task\scheduled_task {
 
                             // Adjust course start date
                             if ($local_sandbox_config->adjustcoursestartdate == true) {
-                                if (!$DB->update_record('course', (object)array('id' => $newcourseid, 'startdate' => $now))) {
+                                if (!$DB->update_record('course', (object)array('id' => $newcourseid, 'startdate' => time()))) {
                                     // Output error message for cron listing
                                     echo "\n\t".get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname)."\n";
 
