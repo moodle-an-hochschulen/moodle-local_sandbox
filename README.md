@@ -10,6 +10,8 @@ This plugin requires Moodle 2.7+
 
 Changes
 -------
+* 2014-10-13 - Support new events API
+* 2014-10-13 - Bugfix: Sandbox sometimes couldn't finish the scheduled task due to a coding error
 * 2014-09-16 - Bugfix: Sandbox didn't restore courses when option to set the course start date to today was set to on
 * 2014-09-16 - Fix typo in english language pack
 * 2014-09-16 - Update README file

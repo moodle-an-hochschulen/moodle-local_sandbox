@@ -27,6 +27,8 @@ namespace local_sandbox\task;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(dirname(dirname(dirname(__FILE__))) . '/lib.php');
+
 /**
  * The local_sandbox course restored event class.
  *
@@ -179,9 +181,15 @@ class restore_courses extends \core\task\scheduled_task {
                                 ));
                                 $logevent->trigger();
 
-                                // Fire event
+                                // Fire course_updated event
                                 $course = $DB->get_record('course', array('id'=>$newcourseid));
-                                events_trigger('course_updated', $course);
+                                $ccevent = \core\event\course_created::create(array(
+                                    'objectid' => $course->id,
+                                    'context' => \context_course::instance($course->id),
+                                    'other' => array('shortname' => $course->shortname,
+                                                     'fullname' => $course->fullname)
+                                ));
+                                $ccevent->trigger();
 
                                 // Count successfully restored course
                                 $count++;
