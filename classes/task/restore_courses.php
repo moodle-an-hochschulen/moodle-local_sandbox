@@ -110,9 +110,9 @@ class restore_courses extends \core\task\scheduled_task {
                             }
 
                             // Unzip course backup file to temp directory
-                            $zippacker = new \zip_packer();
+                            $filepacker = get_file_packer('application/vnd.moodle.backup');
                             check_dir_exists($CFG->dataroot.'/temp/backup');
-                            if (!$zippacker->extract_to_pathname($local_sandbox_config->coursebackupsdirectory.'/'.$file, $CFG->dataroot.'/temp/backup/'.$shortname)) {
+                            if (!$filepacker->extract_to_pathname($local_sandbox_config->coursebackupsdirectory.'/'.$file, $CFG->dataroot.'/temp/backup/'.$shortname)) {
                                 // Output error message for cron listing
                                 echo "\n\t".get_string('skippingunzipfailed', 'local_sandbox', $file)."\n";
 
