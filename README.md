@@ -10,6 +10,7 @@ This plugin requires Moodle 2.7+
 
 Changes
 -------
+* 2014-11-24 - Support new backup format ($CFG->enabletgzbackups), Credits to Dimitri Vorona
 * 2014-10-13 - Support new events API
 * 2014-10-13 - Bugfix: Sandbox sometimes couldn't finish the scheduled task due to a coding error
 * 2014-09-16 - Bugfix: Sandbox didn't restore courses when option to set the course start date to today was set to on
