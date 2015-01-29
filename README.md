@@ -7,12 +7,13 @@ Moodle plugin which programatically restores courses to predefined course states
 Requirements
 ------------
 
-This plugin requires Moodle 2.7+
+This plugin requires Moodle 2.8+
 
 
 Changes
 -------
 
+* 2015-01-29 - Check compatibility for Moodle 2.8, no functionality change
 * 2014-11-24 - Support new backup format ($CFG->enabletgzbackups), Credits to Dimitri Vorona
 * 2014-10-13 - Support new events API
 * 2014-10-13 - Bugfix: Sandbox sometimes couldn't finish the scheduled task due to a coding error
