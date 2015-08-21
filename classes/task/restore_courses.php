@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(dirname(dirname(dirname(__FILE__))) . '/lib.php');
 
 /**
- * The local_sandbox course restored event class.
+ * The local_sandbox restore courses task class.
  *
  * @package     local
  * @subpackage  local_sandbox
