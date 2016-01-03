@@ -7,12 +7,13 @@ Moodle plugin which programatically restores courses to predefined course states
 Requirements
 ------------
 
-This plugin requires Moodle 2.9+
+This plugin requires Moodle 3.0+
 
 
 Changes
 -------
 
+* 2016-01-01 - Check compatibility for Moodle 3.0, no functionality change
 * 2015-08-21 - Add missing event description to language pack
 * 2015-08-21 - Add "Method of operation" section to README file
 * 2015-08-18 - Check compatibility for Moodle 2.9, no functionality change
