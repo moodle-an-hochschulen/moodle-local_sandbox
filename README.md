@@ -13,6 +13,7 @@ This plugin requires Moodle 3.0+
 Changes
 -------
 
+* 2016-01-01 - Remove the "Secure path configuration in Moodle 2.5+" section from README file since the underlying problem is solved in Moodle core
 * 2016-01-01 - Check compatibility for Moodle 3.0, no functionality change
 * 2015-08-21 - Add missing event description to language pack
 * 2015-08-21 - Add "Method of operation" section to README file
@@ -83,17 +84,6 @@ Themes
 ------
 
 The local_sandbox plugin acts behind the scenes, therefore it works with all moodle themes.
-
-
-Secure path configuration in Moodle 2.5+
-----------------------------------------
-
-Since Moodle 2.5, it is possible to disable setting executable paths in config.php with $CFG->preventexecpath = true (please have a look at your config-dist.php for documentation about this feature).
-
-If (and only if) you use this option, it is not possible to configure the paths to the course backup directory on the Moodle settings pages.
-For configuring the paths to the course backup directory, please set $CFG->preventexecpath = false in your config.php temporarily.
-
-(Related Moodle tracker tickets: https://tracker.moodle.org/browse/MDL-41593 and https://tracker.moodle.org/browse/MDL-40949)
 
 
 Emails sent by cronjob
