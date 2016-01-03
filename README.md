@@ -13,6 +13,7 @@ This plugin requires Moodle 3.0+
 Changes
 -------
 
+* 2016-01-01 - Remove reference to pre-Moodle 2.7 execution time configuration in language pack and README
 * 2016-01-01 - Remove the "Secure path configuration in Moodle 2.5+" section from README file since the underlying problem is solved in Moodle core
 * 2016-01-01 - Check compatibility for Moodle 3.0, no functionality change
 * 2015-08-21 - Add missing event description to language pack
@@ -60,7 +61,7 @@ There, you find three sections:
 
 ### 1. Execution time
 
-From Moodle 2.7 on, Moodle core supports a system called "Scheduled tasks". The execution time settings of the sandbox plugin, which have been configured in this section until Moodle 2.6, can be now configured in the "Scheduled tasks" system.
+Moodle core supports a system called "Scheduled tasks". The execution time settings of the sandbox plugin is configured in the "Scheduled tasks" system.
 
 By default, sandbox's scheduled task is disabled in the "Scheduled tasks" system. You have to enable it there to make use of this plugin.
 
