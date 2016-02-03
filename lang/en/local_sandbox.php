@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die;
 $string['pluginname'] = 'Sandbox';
 $string['adjustcoursestartdate'] = 'Adjust course start date';
 $string['adjustcoursestartdate_desc'] = 'Set course start date to today instead of setting it to the date saved in the course backup file';
-$string['coursebackupsdirectory'] = 'Path to course backups';
-$string['coursebackupsdirectory_desc'] = 'Specify the path to the directory where the course backup files to use for course restoring are. Course backup files in this directory must be named with the appropriate course short name and must have the .mbz filename extension.';
+$string['coursebackups'] = 'Course backups';
+$string['coursebackups_desc'] = 'Course backup files to use for course restoring. These files must be named with the appropriate course short name and must have the .mbz filename extension.';
 $string['coursebackupsheading'] = 'Course backups';
 $string['cronrunday'] = 'Execution days';
 $string['cronrunday_desc'] = 'Restore sandbox courses on these days';
@@ -67,3 +67,4 @@ $string['skippingunzipfailed'] = 'WARNING: Unzipping of backup file "{$a}" faile
 $string['successrestored'] = 'SUCCESS: Restored course "{$a}"';
 $string['taskrestorecourses'] = 'Restore sandbox courses';
 $string['upgrade_notice_2014051200'] = '<strong>UPGRADE NOTE:</strong> This update of the sandbox plugin adds support for Moodle\' scheduled task system. The plugin\'s execution time settings will <strong>not</strong> be migrated to the scheduled tasks system. The plugin\'s scheduled task is disabled after this upgrade and the execution time is set to the plugin\'s default value, please check Moodle\'s scheduled task settings to configure and reenable the plugin according to your needs.';
+$string['upgrade_notice_2016020304'] = '<strong>UPGRADE ISSUE:</strong> Unable to remove file {$a}';
