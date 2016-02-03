@@ -38,7 +38,6 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/lib.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_courses extends \core\task\scheduled_task {
-
     /**
      * Return localised task name.
      *
@@ -48,6 +47,28 @@ class restore_courses extends \core\task\scheduled_task {
         return get_string('taskrestorecourses', 'local_sandbox');
     }
 
+    private function getfiles() {
+        $context = \context_system::instance();
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id, 'local_sandbox', 'coursebackups');
+
+        $backupfiles = array();
+
+        foreach ($files as $file) {
+            $filename = $file->get_filename();
+            $isbackup = strpos($filename, '.mbz');
+
+            if (!$isbackup) {
+                continue;
+            }
+
+            $shortname = substr($filename, 0, -4);
+
+            $backupfiles[$shortname] = $file;
+        }
+
+        return $backupfiles;
+    }
 
     /**
      * Execute scheduled task
@@ -57,192 +78,149 @@ class restore_courses extends \core\task\scheduled_task {
     public function execute() {
         global $CFG, $DB;
 
-        require_once($CFG->libdir.'/moodlelib.php');
-        require_once($CFG->libdir.'/filestorage/zip_packer.php');
-        require_once($CFG->dirroot.'/backup/util/includes/restore_includes.php');
+        require_once($CFG->libdir . '/moodlelib.php');
+        require_once($CFG->libdir . '/filestorage/zip_packer.php');
+        require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 
-        // Get plugin config
+        // Get plugin config.
         $local_sandbox_config = get_config('local_sandbox');
 
-        // Counter for restored courses
+        // Counter for restored courses.
         $count = 0;
 
-        // Do only when sandbox directory is configured
-        if ($local_sandbox_config->coursebackupsdirectory != '') {
+        $files = $this->getfiles();
 
-            // Do only when sandbox directory exists
-            if (is_dir($local_sandbox_config->coursebackupsdirectory)) {
+        foreach ($files as $shortname => $file) {
+            echo "\n\t" . get_string('nowprocessing', 'local_sandbox', $shortname) . "\n";
 
-                // Open directory and get all .mbz files
-                if ($handle = @opendir($local_sandbox_config->coursebackupsdirectory)) {
-                    while (false !== ($file = readdir($handle))) {
-                        if (substr($file, -4) == '.mbz' && $file != '.' && $file != '..') {
+            // Get existing course information.
+            if ($oldcourse = $DB->get_record('course', array('shortname' => $shortname))) {
+                $oldcourseid = $oldcourse->id;
+                $categoryid = $oldcourse->category;
+                $fullname = $oldcourse->fullname;
+            } else {
+                // Output error message for cron listing.
+                echo "\n\t" . get_string('skippingnocourse', 'local_sandbox', $shortname) . "\n";
 
-                            // Get course shortname from filename
-                            $shortname = substr($file, 0, -4);
-                            echo "\n\t".get_string('nowprocessing', 'local_sandbox', $shortname)."\n";
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('skippingnocourse', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
 
-                            // Get existing course information
-                            if ($oldcourse = $DB->get_record('course', array('shortname' => $shortname))) {
-                                $oldcourseid = $oldcourse->id;
-                                $categoryid = $oldcourse->category;
-                                $fullname = $oldcourse->fullname;
-                            }
-                            else {
-                                // Output error message for cron listing
-                                echo "\n\t".get_string('skippingnocourse', 'local_sandbox', $shortname)."\n";
+                continue;
+            }
 
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('skippingnocourse', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
+            // Delete existing course.
+            if (!delete_course($oldcourseid, false)) {
+                // Output error message for cron listing.
+                echo "\n\t" . get_string('skippingdeletionfailed', 'local_sandbox', $shortname) . "\n";
 
-                                continue;
-                            }
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
 
-                            // Delete existing course
-                            if (!delete_course($oldcourseid, false)) {
-                                // Output error message for cron listing
-                                echo "\n\t".get_string('skippingdeletionfailed', 'local_sandbox', $shortname)."\n";
+                continue;
+            }
 
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
+            $filepacker = get_file_packer('application/vnd.moodle.backup');
+            $foldername = generate_uuid();
+            $temppath = $CFG->dataroot . '/temp/backup/' . $foldername;
 
-                                continue;
-                            }
+            // Unzip course backup file to temp directory.
+            if (!$file->extract_to_pathname($filepacker, $temppath)) {
+                // Output error message for cron listing.
+                echo "\n\t" . get_string('skippingunzipfailed', 'local_sandbox', $file) . "\n";
 
-                            // Unzip course backup file to temp directory
-                            $filepacker = get_file_packer('application/vnd.moodle.backup');
-                            check_dir_exists($CFG->dataroot.'/temp/backup');
-                            if (!$filepacker->extract_to_pathname($local_sandbox_config->coursebackupsdirectory.'/'.$file, $CFG->dataroot.'/temp/backup/'.$shortname)) {
-                                // Output error message for cron listing
-                                echo "\n\t".get_string('skippingunzipfailed', 'local_sandbox', $file)."\n";
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('skippingunzipfailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
 
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('skippingunzipfailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
+                continue;
+            }
 
-                                continue;
-                            }
+            // Create new course.
+            if (!$newcourseid = \restore_dbops::create_new_course($shortname, $shortname, $categoryid)) {
+                // Output error message for cron listing.
+                echo "\n\t" . get_string('skippingcreatefailed', 'local_sandbox', $shortname) . "\n";
 
-                            // Create new course
-                            if (!$newcourseid = \restore_dbops::create_new_course($shortname, $shortname, $categoryid)) {
-                                // Output error message for cron listing
-                                echo "\n\t".get_string('skippingcreatefailed', 'local_sandbox', $shortname)."\n";
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
 
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
+                continue;
+            }
 
-                                continue;
-                            }
+            // Get admin user for restore.
+            $admin = get_admin();
+            $restoreuser = $admin->id;
 
-                            // Get admin user for restore
-                            $admin = get_admin();
-                            $restoreuser = $admin->id;
+            // Restore course backup file into new course.
+            if ($controller = new \restore_controller($foldername, $newcourseid, \backup::INTERACTIVE_NO, \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
+                $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
+                $controller->execute_precheck();
+                $controller->execute_plan();
+            } else {
+                // Output error message for cron listing.
+                echo "\n\t" . get_string('skippingrestorefailed', 'local_sandbox', $shortname) . "\n";
 
-                            // Restore course backup file into new course
-                            if ($controller = new \restore_controller($shortname, $newcourseid, \backup::INTERACTIVE_NO, \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
-                                $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
-                                $controller->execute_precheck();
-                                $controller->execute_plan();
-                            }
-                            else {
-                                // Output error message for cron listing
-                                echo "\n\t".get_string('skippingrestorefailed', 'local_sandbox', $shortname)."\n";
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('skippingrestorefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
 
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('skippingrestorefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
+                continue;
+            }
 
-                                continue;
-                            }
-
-                            // Adjust course start date
-                            if ($local_sandbox_config->adjustcoursestartdate == true) {
-                                if (!$DB->update_record('course', (object)array('id' => $newcourseid, 'startdate' => time()))) {
-                                    // Output error message for cron listing
-                                    echo "\n\t".get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname)."\n";
-
-                                    // Inform admin
-                                    local_sandbox_inform_admin(get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
-
-                                    continue;
-                                }
-                            }
-
-                            // Set shortname and fullname back
-                            if ($DB->update_record('course', (object)array('id' => $newcourseid, 'shortname' => $shortname, 'fullname' => $fullname))) {
-                                // Output info message for cron listing
-                                echo "\n\t".get_string('successrestored', 'local_sandbox', $shortname)."\n";
-
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('successrestored', 'local_sandbox', $shortname), SANDBOX_LEVEL_NOTICE);
-
-                                // Log the event
-                                $logevent = \local_sandbox\event\course_restored::create(array(
-                                    'objectid' => $newcourseid,
-                                    'context' => \context_course::instance($newcourseid)
-                                ));
-                                $logevent->trigger();
-
-                                // Fire course_updated event
-                                $course = $DB->get_record('course', array('id'=>$newcourseid));
-                                $ccevent = \core\event\course_created::create(array(
-                                    'objectid' => $course->id,
-                                    'context' => \context_course::instance($course->id),
-                                    'other' => array('shortname' => $course->shortname,
-                                                     'fullname' => $course->fullname)
-                                ));
-                                $ccevent->trigger();
-
-                                // Count successfully restored course
-                                $count++;
-                            }
-                            else {
-                                // Output error message for cron listing
-                                echo "\n\t".get_string('skippingdbupdatedfailed', 'local_sandbox', $shortname)."\n";
-
-                                // Inform admin
-                                local_sandbox_inform_admin(get_string('skippingdbupdatefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
-
-                                continue;
-                            }
-                        }
-                    }
-                    closedir($handle);
-
-                    // Output info message for cron listing
-                    echo "\n\t".get_string('noticerestorecount', 'local_sandbox', $count)."\n";
-
-                    // Inform admin
-                    local_sandbox_inform_admin(get_string('noticerestorecount', 'local_sandbox', $count), SANDBOX_LEVEL_NOTICE);
-
-                    return true;
-                }
-                else {
+            // Adjust course start date.
+            if ($local_sandbox_config->adjustcoursestartdate == true) {
+                if (!$DB->update_record('course', (object)array('id' => $newcourseid, 'startdate' => time()))) {
                     // Output error message for cron listing
-                    echo "\n\t".get_string('errordirectorynotreadable', 'local_sandbox', $local_sandbox_config->coursebackupsdirectory)."\n";
+                    echo "\n\t" . get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname) . "\n";
 
                     // Inform admin
-                    local_sandbox_inform_admin(get_string('errordirectorynotreadable', 'local_sandbox', $local_sandbox_config->coursebackupsdirectory), SANDBOX_LEVEL_ERROR);
+                    local_sandbox_inform_admin(get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
 
-                    return false;
+                    continue;
                 }
             }
-            else {
-                // Output error message for cron listing
-                echo "\n\t".get_string('errordirectorynotexist', 'local_sandbox', $local_sandbox_config->coursebackupsdirectory)."\n";
 
-                // Inform admin
-                local_sandbox_inform_admin(get_string('errordirectorynotexist', 'local_sandbox', $local_sandbox_config->coursebackupsdirectory), SANDBOX_LEVEL_ERROR);
+            // Set shortname and fullname back.
+            if ($DB->update_record('course', (object)array('id' => $newcourseid, 'shortname' => $shortname, 'fullname' => $fullname))) {
+                // Output info message for cron listing
+                echo "\n\t" . get_string('successrestored', 'local_sandbox', $shortname) . "\n";
 
-                return false;
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('successrestored', 'local_sandbox', $shortname), SANDBOX_LEVEL_NOTICE);
+
+                // Log the event.
+                $logevent = \local_sandbox\event\course_restored::create(array(
+                    'objectid' => $newcourseid,
+                    'context'  => \context_course::instance($newcourseid),
+                ));
+                $logevent->trigger();
+
+                // Fire course_updated event.
+                $course = $DB->get_record('course', array('id' => $newcourseid));
+                $ccevent = \core\event\course_created::create(array(
+                    'objectid' => $course->id,
+                    'context'  => \context_course::instance($course->id),
+                    'other'    => array('shortname' => $course->shortname,
+                                        'fullname'  => $course->fullname),
+                ));
+                $ccevent->trigger();
+
+                // Count successfully restored course.
+                $count++;
+            } else {
+                // Output error message for cron listing.
+                echo "\n\t" . get_string('skippingdbupdatedfailed', 'local_sandbox', $shortname) . "\n";
+
+                // Inform admin.
+                local_sandbox_inform_admin(get_string('skippingdbupdatefailed', 'local_sandbox', $shortname), SANDBOX_LEVEL_WARNING);
+
+                continue;
             }
         }
-        else {
-            // Output info message for cron listing
-            echo "\n\t".get_string('noticedirectorynotconfigured', 'local_sandbox')."\n";
 
-            // Inform admin
-            local_sandbox_inform_admin(get_string('noticedirectorynotconfigured', 'local_sandbox'), SANDBOX_LEVEL_NOTICE);
+        // Output info message for cron listing.
+        echo "\n\t" . get_string('noticerestorecount', 'local_sandbox', $count) . "\n";
 
-            return true;
-        }
+        // Inform admin.
+        local_sandbox_inform_admin(get_string('noticerestorecount', 'local_sandbox', $count), SANDBOX_LEVEL_NOTICE);
+
+        return true;
     }
 }

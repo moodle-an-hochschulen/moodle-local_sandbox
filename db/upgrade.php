@@ -39,5 +39,49 @@ function xmldb_local_sandbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051200, 'local', 'sandbox');
     }
 
+    if ($oldversion < 2016020306) {
+        $context = \context_system::instance();
+        $fs = get_file_storage();
+
+        $filerecord = array('component' => 'local_sandbox', 'filearea' => 'coursebackups',
+                            'contextid' => $context->id, 'itemid' => 0, 'filepath' => '/',
+                            'filename' => '');
+
+        $coursebackupsdirectory = get_config('local_sandbox', 'coursebackupsdirectory');
+        $handle = @opendir($coursebackupsdirectory);
+
+        if ($handle) {
+            $todelete = array();
+            while (false !== ($file = readdir($handle))) {
+                $isbackup = strpos($file, '.mbz');
+
+                if (!$isbackup) {
+                    continue;
+                }
+
+                $filerecord['filename'] = $file;
+                $fullpath = $coursebackupsdirectory . '/' . $file;
+
+                $fs->create_file_from_pathname($filerecord, $fullpath);
+                $todelete[] = $fullpath;
+            }
+
+            if ($handle) {
+                closedir($handle);
+            }
+
+            foreach ($todelete as $file) {
+                $result = @unlink($file);
+
+                if ($result == false) {
+                    $message = get_string('upgrade_notice_2016020304', 'local_sandbox', $file);
+                    echo html_writer::tag('div', $message, array('class' => 'alert alert-info'));
+                }
+            }
+        }
+
+        upgrade_plugin_savepoint(true, 2016020306, 'local', 'sandbox');
+    }
+
     return true;
 }

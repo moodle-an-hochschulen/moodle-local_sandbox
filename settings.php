@@ -47,7 +47,8 @@ if ($hassiteconfig) {
     $page->add(new admin_setting_heading('local_sandbox/coursebackupsheading', get_string('coursebackupsheading', 'local_sandbox'), ''));
 
     // Create course backup files directory widget
-    $page->add(new admin_setting_configdirectory('local_sandbox/coursebackupsdirectory', get_string('coursebackupsdirectory', 'local_sandbox'), get_string('coursebackupsdirectory_desc', 'local_sandbox'), $CFG->dataroot.'/sandbox'));
+    $page->add(new admin_setting_configstoredfile('local_sandbox/coursebackups', get_string('coursebackups', 'local_sandbox'), get_string('coursebackups_desc', 'local_sandbox'), 'coursebackups', 0,
+        array('maxfiles' => 0)));
 
     // Create change course start date control widget
     $page->add(new admin_setting_configcheckbox('local_sandbox/adjustcoursestartdate', get_string('adjustcoursestartdate', 'local_sandbox'), get_string('adjustcoursestartdate_desc', 'local_sandbox'), 0));

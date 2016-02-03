@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'local_sandbox';
-$plugin->version = 2015111600;
+$plugin->version = 2016020306;
 $plugin->release = '3.0 (Build: 2016010100)';
 $plugin->requires = 2015111600;
 $plugin->maturity = MATURITY_STABLE;
