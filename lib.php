@@ -17,10 +17,9 @@
 /**
  * Local plugin "sandbox" - Library
  *
- * @package     local
- * @subpackage  local_sandbox
- * @copyright   2013 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_sandbox
+ * @copyright  2013 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;

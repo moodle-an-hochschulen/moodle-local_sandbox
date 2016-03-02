@@ -17,10 +17,9 @@
 /**
  * Local plugin "sandbox" - Task definition
  *
- * @package     local
- * @subpackage  local_sandbox
- * @copyright   2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_sandbox
+ * @copyright  2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_sandbox\task;
@@ -32,10 +31,9 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/lib.php');
 /**
  * The local_sandbox restore courses task class.
  *
- * @package     local
- * @subpackage  local_sandbox
- * @copyright   2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_sandbox
+ * @copyright  2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_courses extends \core\task\scheduled_task {
 

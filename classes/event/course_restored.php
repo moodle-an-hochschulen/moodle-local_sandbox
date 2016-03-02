@@ -17,10 +17,9 @@
 /**
  * Local plugin "sandbox" - Event definition
  *
- * @package     local
- * @subpackage  local_sandbox
- * @copyright   2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_sandbox
+ * @copyright  2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_sandbox\event;
@@ -30,10 +29,9 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * The local_sandbox course restored event class.
  *
- * @package     local
- * @subpackage  local_sandbox
- * @copyright   2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_sandbox
+ * @copyright  2014 Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_restored extends \core\event\base {
 
