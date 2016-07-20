@@ -7,12 +7,13 @@ Moodle plugin which programatically restores courses to predefined course states
 Requirements
 ------------
 
-This plugin requires Moodle 3.0+
+This plugin requires Moodle 3.1+
 
 
 Changes
 -------
 
+* 2016-07-19 - Check compatibility for Moodle 3.1, no functionality change
 * 2016-02-10 - Change plugin version and release scheme to the scheme promoted by moodle.org, no functionality change
 * 2016-01-01 - Remove reference to pre-Moodle 2.7 execution time configuration in language pack and README
 * 2016-01-01 - Remove the "Secure path configuration in Moodle 2.5+" section from README file since the underlying problem is solved in Moodle core
