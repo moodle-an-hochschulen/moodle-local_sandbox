@@ -169,7 +169,7 @@ If you want to use this plugin with a RTL language and it doesn't work as-is, yo
 Copyright
 ---------
 
-University of Ulm
+Ulm University
 kiz - Media Department
 Team Web & Teaching Support
 Alexander Bias
