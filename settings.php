@@ -31,38 +31,40 @@ if ($hassiteconfig) {
     $page = new admin_settingpage('sandbox', get_string('pluginname', 'local_sandbox', null, true));
 
 
-    // Execution time
-    $page->add(new admin_setting_heading('local_sandbox/cronruntimeheading', get_string('cronruntimeheading', 'local_sandbox', null, true), ''));
+    if ($ADMIN->fulltree) {
+        // Execution time
+        $page->add(new admin_setting_heading('local_sandbox/cronruntimeheading', get_string('cronruntimeheading', 'local_sandbox', null, true), ''));
 
-    $html = html_writer::tag('p', get_string('cronruntimescheduledtasksmanagement', 'local_sandbox', null, true));
-    $html .= html_writer::tag('p', get_string('cronruntimescheduledtasksactivate', 'local_sandbox', null, true));
-    $html .= html_writer::tag('p', get_string('cronruntimescheduledtasksstandardtime', 'local_sandbox', null, true));
-    $html .= html_writer::start_tag('p');
-    $html .= html_writer::link(new moodle_url('/admin/tool/task/scheduledtasks.php'), get_string('scheduledtasks', 'tool_task', null, true));
-    $html .= html_writer::end_tag('p');
-    $page->add(new admin_setting_heading('local_sandbox/cronruntimehint', '', $html));
+        $html = html_writer::tag('p', get_string('cronruntimescheduledtasksmanagement', 'local_sandbox', null, true));
+        $html .= html_writer::tag('p', get_string('cronruntimescheduledtasksactivate', 'local_sandbox', null, true));
+        $html .= html_writer::tag('p', get_string('cronruntimescheduledtasksstandardtime', 'local_sandbox', null, true));
+        $html .= html_writer::start_tag('p');
+        $html .= html_writer::link(new moodle_url('/admin/tool/task/scheduledtasks.php'), get_string('scheduledtasks', 'tool_task', null, true));
+        $html .= html_writer::end_tag('p');
+        $page->add(new admin_setting_heading('local_sandbox/cronruntimehint', '', $html));
 
-    // Course backups
-    $page->add(new admin_setting_heading('local_sandbox/coursebackupsheading', get_string('coursebackupsheading', 'local_sandbox', null, true), ''));
+        // Course backups
+        $page->add(new admin_setting_heading('local_sandbox/coursebackupsheading', get_string('coursebackupsheading', 'local_sandbox', null, true), ''));
 
-    // Create course backup files directory widget
-    $page->add(new admin_setting_configdirectory('local_sandbox/coursebackupsdirectory', get_string('coursebackupsdirectory', 'local_sandbox', null, true), get_string('coursebackupsdirectory_desc', 'local_sandbox', null, true), $CFG->dataroot.'/sandbox'));
+        // Create course backup files directory widget
+        $page->add(new admin_setting_configdirectory('local_sandbox/coursebackupsdirectory', get_string('coursebackupsdirectory', 'local_sandbox', null, true), get_string('coursebackupsdirectory_desc', 'local_sandbox', null, true), $CFG->dataroot.'/sandbox'));
 
-    // Create change course start date control widget
-    $page->add(new admin_setting_configcheckbox('local_sandbox/adjustcoursestartdate', get_string('adjustcoursestartdate', 'local_sandbox', null, true), get_string('adjustcoursestartdate_desc', 'local_sandbox', null, true), 0));
+        // Create change course start date control widget
+        $page->add(new admin_setting_configcheckbox('local_sandbox/adjustcoursestartdate', get_string('adjustcoursestartdate', 'local_sandbox', null, true), get_string('adjustcoursestartdate_desc', 'local_sandbox', null, true), 0));
 
 
-    // Notifications
-    $page->add(new admin_setting_heading('local_sandbox/notifyheading', get_string('notifyheading', 'local_sandbox', null, true), ''));
+        // Notifications
+        $page->add(new admin_setting_heading('local_sandbox/notifyheading', get_string('notifyheading', 'local_sandbox', null, true), ''));
 
-    // Create user notification chooser widget
-    $page->add(new admin_setting_users_with_capability('local_sandbox/notifyonerrors', get_string('notifyonerrors', 'local_sandbox', null, true), get_string('notifyonerrors_desc', 'local_sandbox', null, true), array(), 'moodle/site:config'));
+        // Create user notification chooser widget
+        $page->add(new admin_setting_users_with_capability('local_sandbox/notifyonerrors', get_string('notifyonerrors', 'local_sandbox', null, true), get_string('notifyonerrors_desc', 'local_sandbox', null, true), array(), 'moodle/site:config'));
 
-    // Create user notification level widget
-    $levels[SANDBOX_LEVEL_NOTICE] = get_string('notice', 'core');
-    $levels[SANDBOX_LEVEL_WARNING] = get_string('warning', 'core');
-    $levels[SANDBOX_LEVEL_ERROR] = get_string('error', 'core');
-    $page->add(new admin_setting_configselect('local_sandbox/notifylevel', get_string('notifylevel', 'local_sandbox', null, true), get_string('notifylevel_desc', 'local_sandbox', null, true), SANDBOX_LEVEL_ERROR, $levels));
+        // Create user notification level widget
+        $levels[SANDBOX_LEVEL_NOTICE] = get_string('notice', 'core');
+        $levels[SANDBOX_LEVEL_WARNING] = get_string('warning', 'core');
+        $levels[SANDBOX_LEVEL_ERROR] = get_string('error', 'core');
+        $page->add(new admin_setting_configselect('local_sandbox/notifylevel', get_string('notifylevel', 'local_sandbox', null, true), get_string('notifylevel_desc', 'local_sandbox', null, true), SANDBOX_LEVEL_ERROR, $levels));
+    }
 
 
     // Add settings page to navigation tree
