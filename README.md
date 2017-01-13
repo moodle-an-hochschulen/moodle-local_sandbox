@@ -23,7 +23,7 @@ Usage & Settings
 ----------------
 
 After installing local_sandbox, the plugin doesn't do anything until it is configured.
-To configure the plugin, please visit Plugins -> Local plugins -> Sandbox.
+To configure the plugin, please visit Site Administration -> Courses -> Sandbox.
 
 There, you find three sections:
 
