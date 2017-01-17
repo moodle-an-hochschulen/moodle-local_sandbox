@@ -23,7 +23,7 @@ Usage & Settings
 ----------------
 
 After installing local_sandbox, the plugin doesn't do anything until it is configured.
-To configure the plugin, please visit Site Administration -> Courses -> Sandbox.
+To configure the plugin, please visit Site administration -> Courses -> Sandbox.
 
 There, you find three sections:
 
@@ -58,7 +58,7 @@ The local_sandbox plugin acts behind the scenes, therefore it works with all moo
 Emails sent by cronjob
 ----------------------
 
-If you have debugging enabled in your Moodle installation, as soon as local_sandbox is configured and working, there is an email sent to the webserver administrator (the person who gets stdout output from unix cronjobs) telling something like this:
+If you have debugging enabled in your Moodle installation, as soon as local_sandbox is configured and working, there might be an email sent to the webserver administrator (the person who gets stdout output from unix cronjobs) telling something like this:
 
 > instantiating restore controller 0b3123770cffd351d7c7b890a7a0035c
 
@@ -104,7 +104,7 @@ Method of operation
 
 The plugin's description states that it restores courses to predefined course states. In reality, this is not exactly true. In fact, the plugin operates by completely deleting a course and creating a new one from the configured backup file.
 
-Normally, this tiny detail is unimportant. However, you should know that each resetted course gets a new course ID. This can produce problems if you have a hardcoded link (from outside or inside of Moodle) pointing to a sandbox course. This link will break with each run of the sandbox plugin. If you want to have a hardcoded link to a sandbox course, please construct the link's URL like https://<YOURMOODLE>/course/view.php?name=<COURSE-SHORTNAME> instead of https://<YOURMOODLE>/course/view.php?id=<COURSE-ID>.
+Normally, this tiny detail is unimportant. However, you should know that each resetted course gets a new course ID. This can produce problems if you have a hardcoded link (from outside or inside of Moodle) pointing to a sandbox course. This link will break with each run of the sandbox plugin. If you want to have a hardcoded link to a sandbox course, please construct the link's URL like `https://<YOURMOODLE>/course/view.php?name=<COURSE-SHORTNAME>` instead of `https://<YOURMOODLE>/course/view.php?id=<COURSE-ID>`.
 
 
 Further information
@@ -128,7 +128,7 @@ Right-to-left support
 
 This plugin has not been tested with Moodle's support for right-to-left (RTL) languages.
 
-If you want to use this plugin with a RTL language and it doesn't work as-is, you are free to send me a pull request on github with modifications.
+If you want to use this plugin with a RTL language and it doesn't work as-is, you are free to send us a pull request on github with modifications.
 
 
 Copyright
