@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2017-05-05 - Improve README.md
+
 ### v3.2-r1
 
 * 2017-01-17 - Check compatibility for Moodle 3.2, no functionality change
