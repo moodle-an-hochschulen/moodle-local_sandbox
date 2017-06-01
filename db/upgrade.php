@@ -25,12 +25,15 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Upgrade steps for this plugin
  * @param int $oldversion the version we are upgrading from
- * @return bool result
+ * @return boolean
  */
 function xmldb_local_sandbox_upgrade($oldversion) {
     if ($oldversion < 2014051200) {
-        echo html_writer::tag('div', get_string('upgrade_notice_2014051200', 'local_sandbox'), array('class' => 'alert alert-info'));
+        echo html_writer::tag('div',
+                get_string('upgrade_notice_2014051200', 'local_sandbox'),
+                array('class' => 'alert alert-info'));
 
         unset_config('cronruntimehour', 'local_sandbox');
         unset_config('cronruntimemin', 'local_sandbox');
