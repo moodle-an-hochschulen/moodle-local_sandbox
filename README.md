@@ -1,6 +1,8 @@
 moodle-local_sandbox
 ====================
 
+[![Build Status](https://travis-ci.org/moodleuulm/moodle-local_sandbox.svg?branch=master)](https://travis-ci.org/moodleuulm/moodle-local_sandbox)
+
 Moodle plugin which programatically restores courses to predefined course states. It can be used to provide playground moodle courses which will be cleaned periodically
 
 
