@@ -34,7 +34,7 @@ define('SANDBOX_LEVEL_ERROR', 3);
  *
  * @param string $message The message
  * @param int $level Notification level
- * @return
+ * @return boolean
  */
 function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
     // Get recipients.

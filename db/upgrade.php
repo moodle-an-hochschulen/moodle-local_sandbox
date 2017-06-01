@@ -25,8 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Upgrade steps for this plugin
  * @param int $oldversion the version we are upgrading from
- * @return bool result
+ * @return boolean
  */
 function xmldb_local_sandbox_upgrade($oldversion) {
     if ($oldversion < 2014051200) {
