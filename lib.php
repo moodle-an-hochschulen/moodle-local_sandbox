@@ -37,7 +37,7 @@ define('SANDBOX_LEVEL_ERROR', 3);
  * @return
  */
 function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
-    // Get recipients
+    // Get recipients.
     $recipients = get_users_from_config(get_config('local_sandbox', 'notifyonerrors'), 'moodle/site:config');
 
     // If there are no recipients, don't execute.
@@ -45,28 +45,23 @@ function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
         return false;
     }
 
-
-    // If message level is below configured notice level, don't execute
+    // If message level is below configured notice level, don't execute.
     if ($level < get_config('local_sandbox', 'notifylevel')) {
         return false;
     }
 
-
-    // Get subject
+    // Get subject.
     if ($level > SANDBOX_LEVEL_WARNING) {
         $subject = get_string('emailsubjecterror', 'local_sandbox');
-    }
-    else if ($level > SANDBOX_LEVEL_NOTICE) {
+    } else if ($level > SANDBOX_LEVEL_NOTICE) {
         $subject = get_string('emailsubjectwarning', 'local_sandbox');
-    }
-    else {
+    } else {
         $subject = get_string('emailsubjectnotice', 'local_sandbox');
     }
 
-
-    // Send mail
+    // Send mail.
     foreach ($recipients as $r) {
-        // Email the admin directly rather than putting these through the messaging system
+        // Email the admin directly rather than putting these through the messaging system.
         email_to_user($r, core_user::get_support_user(), $subject, $message);
     }
 }
