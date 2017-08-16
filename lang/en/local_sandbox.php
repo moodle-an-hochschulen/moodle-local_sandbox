@@ -29,6 +29,11 @@ $string['adjustcoursestartdate'] = 'Adjust course start date';
 $string['adjustcoursestartdate_desc'] = 'Set course start date to today instead of setting it to the date saved in the course backup file';
 $string['coursebackupsdirectory'] = 'Path to course backups';
 $string['coursebackupsdirectory_desc'] = 'Specify the path to the directory where the course backup files to use for course restoring are. Course backup files in this directory must be named with the appropriate course short name and must have the .mbz filename extension.';
+
+$string['keepcourseid'] = 'Keep the course ID';
+$string['keepcourseid_desc'] = 'The course will be restored with the same course ID.'; 
+
+
 $string['coursebackupsheading'] = 'Course backups';
 $string['cronrunday'] = 'Execution days';
 $string['cronrunday_desc'] = 'Restore sandbox courses on these days';
@@ -60,6 +65,7 @@ $string['skippingadjuststartdatefailed'] = 'WARNING: Course start date adjustmen
 $string['skippingcreatefailed'] = 'WARNING: Course creation of course "{$a}" failed, skipping file...';
 $string['skippingdbupdatefailed'] = 'WARNING: Course database update of course "{$a}" failed, skipping file...';
 $string['skippingdeletionfailed'] = 'WARNING: Deletion of existing course "{$a}" failed (partially or completely), skipping file...';
+$string['skippingdeletecontentfailed'] = 'WARNING: Deletion of existing course content "{$a}" failed (partially or completely), skipping file...';
 $string['skippingnocourse'] = 'WARNING: There is no existing course with shortname "{$a}", skipping file...';
 $string['skippingrestorefailed'] = 'WARNING: Course restore of course "{$a}" failed, skipping file...';
 $string['skippingunzipfailed'] = 'WARNING: Unzipping of backup file "{$a}" failed, skipping file...';

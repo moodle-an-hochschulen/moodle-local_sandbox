@@ -63,6 +63,12 @@ if ($hassiteconfig) {
                 get_string('adjustcoursestartdate_desc', 'local_sandbox', null, true),
                 0));
 
+	// Keep Course ID -> restore to same course!
+        $page->add(new admin_setting_configcheckbox('local_sandbox/keep_course_id',
+                get_string('keepcourseid', 'local_sandbox', null, true),
+                get_string('keepcourseid_desc', 'local_sandbox', null, true),
+                1));
+
 
         // Notifications.
         $page->add(new admin_setting_heading('local_sandbox/notifyheading',

@@ -95,19 +95,45 @@ class restore_courses extends \core\task\scheduled_task {
 
                                 continue;
                             }
-
+			if($localsandboxconfig->keep_course_id != 1 ) {
                             // Delete existing course.
-                            if (!delete_course($oldcourseid, false)) {
-                                // Output error message for cron listing.
-                                echo "\n\t".get_string('skippingdeletionfailed', 'local_sandbox', $shortname)."\n";
 
-                                // Inform admin.
-                                local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname),
+                                if (!delete_course($oldcourseid, false)) {
+                                    // Output error message for cron listing.
+                                    echo "\n\t".get_string('skippingdeletionfailed', 'local_sandbox', $shortname)."\n";
+
+                                    // Inform admin.
+                                    local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname),
                                         SANDBOX_LEVEL_WARNING);
 
-                                continue;
-                            }
+                                    continue;
+                            	}
 
+                            // Create new course.
+                                if (!$newcourseid = \restore_dbops::create_new_course($shortname, $shortname, $categoryid)) {
+                                    // Output error message for cron listing.
+                                    echo "\n\t".get_string('skippingcreatefailed', 'local_sandbox', $shortname)."\n";
+
+                                    // Inform admin.
+                                    local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname),
+                                        SANDBOX_LEVEL_WARNING);
+
+                                    continue;
+                                }
+
+			    }
+			else {
+			    $newcourseid = $oldcourseid;
+                            // Delete course content
+                            if(!$removecontent = \restore_dbops::delete_course_content($newcourseid)) {
+                                echo "\n\t".get_string('skippingdeletecontentfailed', 'local_sandbox', $shortname)."\n";
+                                local_sandbox_inform_admin(get_string('skippingdeletecontentfailed', 'local_sandbox', $shortname),
+                                        SANDBOX_LEVEL_WARNING);
+				
+				continue;
+
+                            }			
+			}
                             // Unzip course backup file to temp directory.
                             $filepacker = get_file_packer('application/vnd.moodle.backup');
                             check_dir_exists($CFG->dataroot.'/temp/backup');
@@ -118,18 +144,6 @@ class restore_courses extends \core\task\scheduled_task {
 
                                 // Inform admin.
                                 local_sandbox_inform_admin(get_string('skippingunzipfailed', 'local_sandbox', $shortname),
-                                        SANDBOX_LEVEL_WARNING);
-
-                                continue;
-                            }
-
-                            // Create new course.
-                            if (!$newcourseid = \restore_dbops::create_new_course($shortname, $shortname, $categoryid)) {
-                                // Output error message for cron listing.
-                                echo "\n\t".get_string('skippingcreatefailed', 'local_sandbox', $shortname)."\n";
-
-                                // Inform admin.
-                                local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname),
                                         SANDBOX_LEVEL_WARNING);
 
                                 continue;
