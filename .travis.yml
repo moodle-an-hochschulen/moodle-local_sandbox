@@ -25,7 +25,7 @@ php:
 
 env:
  global:
-  - MOODLE_BRANCH=MOODLE_33_STABLE
+  - MOODLE_BRANCH=MOODLE_34_STABLE
  matrix:
   - DB=pgsql
   - DB=mysqli

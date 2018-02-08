@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2018-02-08 - Check compatibility for Moodle 3.4, no functionality change.
+
 ### v3.3-r1
 
 * 2017-12-12 - Check compatibility for Moodle 3.3, no functionality change.
