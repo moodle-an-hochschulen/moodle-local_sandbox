@@ -65,3 +65,44 @@ function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
         email_to_user($r, core_user::get_support_user(), $subject, $message);
     }
 }
+
+
+/**
+ * Helper function for fetching the list of course backup files.
+ *
+ * @return array
+ */
+function local_sandbox_getfiles() {
+    // Get context.
+    $context = \context_system::instance();
+
+    // Get file storage.
+    $fs = get_file_storage();
+
+    // Get file area.
+    $files = $fs->get_area_files($context->id, 'local_sandbox', 'coursebackups');
+
+    // Initialize backup files array.
+    $backupfiles = array();
+
+    // Get course shortnames from filenames.
+    foreach ($files as $file) {
+        // Get filename.
+        $filename = $file->get_filename();
+
+        // Check if we really have a backup file.
+        $isbackup = strpos($filename, '.mbz');
+        if (!$isbackup) {
+            continue;
+        }
+
+        // Extract shortname.
+        $shortname = substr($filename, 0, -4);
+
+        // Remember shortname.
+        $backupfiles[$shortname] = $file;
+    }
+
+    // Return backup files array.
+    return $backupfiles;
+}
