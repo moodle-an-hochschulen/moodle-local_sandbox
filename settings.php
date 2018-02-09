@@ -63,6 +63,11 @@ if ($hassiteconfig) {
                 get_string('adjustcoursestartdate_desc', 'local_sandbox', null, true),
                 0));
 
+        // Create keep course id control widget.
+        $page->add(new admin_setting_configcheckbox('local_sandbox/keepcourseid',
+                get_string('keepcourseid', 'local_sandbox', null, true),
+                get_string('keepcourseid_desc', 'local_sandbox', null, true),
+                0));
 
         // Notifications.
         $page->add(new admin_setting_heading('local_sandbox/notifyheading',

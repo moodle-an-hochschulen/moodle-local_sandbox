@@ -56,6 +56,8 @@ The sandbox directory /var/www/files/moodledata/sandbox contains the files foo.b
 
 Additionally, in this section, there is an option to set the course start date to today instead of setting it to the date saved in the course backup file. Use this option if you need to provide playground courses in Moodle which pretend to be up-to-date.
 
+Additionally, in this section, there is an option to let local_sandbox keep the course ID when a course is restored. See the "How this plugin works" section below for details.
+
 ### 3. Notifications
 
 As local_sandbox acts automatically, it can inform you when failures or problems occur. In this section, you can define who should be notified and which failures or problems should be reported.
@@ -110,7 +112,9 @@ How this plugin works
 
 The plugin's description states that it restores courses to predefined course states. In reality, this is not exactly true. In fact, the plugin operates by completely deleting a course and creating a new one from the configured backup file.
 
-Normally, this tiny detail is unimportant. However, you should know that each resetted course gets a new course ID. This can produce problems if you have a hardcoded link (from outside or inside of Moodle) pointing to a sandbox course. This link will break with each run of the sandbox plugin. If you want to have a hardcoded link to a sandbox course, please construct the link's URL like `https://<YOURMOODLE>/course/view.php?name=<COURSE-SHORTNAME>` instead of `https://<YOURMOODLE>/course/view.php?id=<COURSE-ID>`.
+Normally, this tiny detail is unimportant. However, you should know that each resetted course gets a new course ID. This can produce problems if you have a hardcoded link (from outside or inside of Moodle) pointing to a sandbox course. This link will break with each run of the sandbox plugin. If you want to have a hardcoded link to a sandbox course, you can construct the link's URL like `https://<YOURMOODLE>/course/view.php?name=<COURSE-SHORTNAME>` instead of `https://<YOURMOODLE>/course/view.php?id=<COURSE-ID>`.
+
+If changing IDs are still a real problem for you, with the "Keep course ID" setting, sandbox can be switched to keeping the existing course and to only delete the existing course content before restoring the course content from the course backup files. The restored course will then have the same course ID. However, use this setting at your own risk. Deleting a sandbox course and creating a new one is still the cleanest approach in our point of view.
 
 
 Theme support

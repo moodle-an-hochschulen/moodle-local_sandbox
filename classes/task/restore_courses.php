@@ -96,16 +96,46 @@ class restore_courses extends \core\task\scheduled_task {
                                 continue;
                             }
 
-                            // Delete existing course.
-                            if (!delete_course($oldcourseid, false)) {
-                                // Output error message for cron listing.
-                                echo "\n\t".get_string('skippingdeletionfailed', 'local_sandbox', $shortname)."\n";
+                            // Do only if the course should be reset into a new course.
+                            if ($localsandboxconfig->keepcourseid != 1) {
+                                // Delete existing course.
+                                if (!delete_course($oldcourseid, false)) {
+                                    // Output error message for cron listing.
+                                    echo "\n\t".get_string('skippingdeletionfailed', 'local_sandbox', $shortname)."\n";
 
-                                // Inform admin.
-                                local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname),
+                                    // Inform admin.
+                                    local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname),
+                                            SANDBOX_LEVEL_WARNING);
+
+                                    continue;
+                                }
+
+                                // Create new course.
+                                if (!$newcourseid = \restore_dbops::create_new_course($shortname, $shortname, $categoryid)) {
+                                    // Output error message for cron listing.
+                                    echo "\n\t".get_string('skippingcreatefailed', 'local_sandbox', $shortname)."\n";
+
+                                    // Inform admin.
+                                    local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname),
                                         SANDBOX_LEVEL_WARNING);
 
-                                continue;
+                                    continue;
+                                }
+                                // Otherwise delete the content of the existing course.
+                            } else {
+                                // Remember old course id.
+                                $newcourseid = $oldcourseid;
+
+                                // Delete course content.
+                                if (!$removecontent = \restore_dbops::delete_course_content($newcourseid)) {
+                                    echo "\n\t".get_string('skippingdeletecontentfailed', 'local_sandbox', $shortname)."\n";
+
+                                    // Inform admin.
+                                    local_sandbox_inform_admin(get_string('skippingdeletecontentfailed', 'local_sandbox',
+                                            $shortname), SANDBOX_LEVEL_WARNING);
+
+                                    continue;
+                                }
                             }
 
                             // Unzip course backup file to temp directory.
@@ -118,18 +148,6 @@ class restore_courses extends \core\task\scheduled_task {
 
                                 // Inform admin.
                                 local_sandbox_inform_admin(get_string('skippingunzipfailed', 'local_sandbox', $shortname),
-                                        SANDBOX_LEVEL_WARNING);
-
-                                continue;
-                            }
-
-                            // Create new course.
-                            if (!$newcourseid = \restore_dbops::create_new_course($shortname, $shortname, $categoryid)) {
-                                // Output error message for cron listing.
-                                echo "\n\t".get_string('skippingcreatefailed', 'local_sandbox', $shortname)."\n";
-
-                                // Inform admin.
-                                local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname),
                                         SANDBOX_LEVEL_WARNING);
 
                                 continue;

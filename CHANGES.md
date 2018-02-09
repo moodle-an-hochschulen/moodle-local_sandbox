@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2018-02-09 - Feature: Keep course id on course restore; Credits to joelschmid91.
+
 ### v3.4-r1
 
 * 2018-02-08 - Check compatibility for Moodle 3.4, no functionality change.
