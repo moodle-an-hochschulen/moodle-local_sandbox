@@ -26,7 +26,7 @@ namespace local_sandbox\task;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../../lib.php');
+require_once(__DIR__ . '/../../locallib.php');
 
 /**
  * The local_sandbox restore courses task class.

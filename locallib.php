@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local plugin "sandbox" - Library
+ * Local plugin "sandbox" - Local Library
  *
  * @package    local_sandbox
  * @copyright  2013 Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
