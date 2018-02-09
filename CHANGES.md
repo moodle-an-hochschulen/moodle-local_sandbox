@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v3.4-r2
 
 * 2018-02-09 - Add a new filearea to save the course backup files within Moodle - Please read the "Upgrading from previous versions" section in README.md; Credits to Andrew Hancox.
 * 2018-02-09 - Feature: Keep course id on course restore; Credits to joelschmid91.
