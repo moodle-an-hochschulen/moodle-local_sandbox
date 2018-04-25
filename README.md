@@ -37,7 +37,7 @@ After installing the plugin, it does not do anything to Moodle yet.
 To configure the plugin and its behaviour, please visit:
 Site administration -> Courses -> Sandbox.
 
-There, you find three sections:
+There, you find four sections:
 
 ### 1. Execution time
 
@@ -58,7 +58,13 @@ Additionally, in this section, there is an option to set the course start date t
 
 Additionally, in this section, there is an option to let local_sandbox keep the course ID when a course is restored. See the "How this plugin works" section below for details.
 
-### 3. Notifications
+### 3. Restore settings
+
+Similar to the global restore settings on /admin/settings.php?section=restoregeneralsettings and to the restore settings you will see when restoring a course manually, you can configure the details for restoring the sandbox courses here.
+
+Please note, that local_sandbox does not validate if the uploaded course backup comply with the configured settings. Please make sure that you only check the settings which you really want to restore with local_sandbox. Test your settings properly before running local_sandbox unattendedly. Make sure that you only enable the restore settings which all of your course backup files comply to, otherwise you risk local_sandbox to fail quite graciously when it tries to restore the course backup files. 
+
+### 4. Notifications
 
 As local_sandbox acts automatically, it can inform you when failures or problems occur. In this section, you can define who should be notified and which failures or problems should be reported.
 

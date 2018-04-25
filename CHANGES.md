@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2018-04-25 - Add dedicated restore settings for restoring sandbox courses.
 * 2018-02-09 - Add deprecated.txt for strings which have been removed in v3.4-r2
 
 ### v3.4-r2

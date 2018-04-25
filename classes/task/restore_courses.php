@@ -153,7 +153,7 @@ class restore_courses extends \core\task\scheduled_task {
                 $restoreuser = $admin->id;
 
                 // Restore course backup file into new course.
-                if ($controller = new \restore_controller($foldername, $newcourseid, \backup::INTERACTIVE_NO,
+                if ($controller = new \local_sandbox_restore_controller($foldername, $newcourseid, \backup::INTERACTIVE_NO,
                         \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
                     $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
                     $controller->execute_precheck();
