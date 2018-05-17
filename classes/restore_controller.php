@@ -25,7 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The local_sandbox restore controller class.
  * This class inherits basically everything from restore_controller except the fact that it applies the plugin's restore settings.
  *
  * @package    local_sandbox
