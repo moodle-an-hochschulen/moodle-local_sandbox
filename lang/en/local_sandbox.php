@@ -56,6 +56,7 @@ $string['notifylevel_desc'] = 'Email notifications will only be sent for events 
 $string['notifyonerrors'] = 'Email failures to';
 $string['notifyonerrors_desc'] = 'If sandbox failures occur, email notifications can be sent out. Who should see these notifications?';
 $string['nowprocessing'] = 'NOW: Processing course "{$a}"';
+$string['privacy:metadata'] = 'The sandbox plugin provides extended functionality to Moodle admins, but does not store any personal data.';
 $string['restoreheading'] = 'Restore settings';
 $string['restoresettingsdescription'] = 'Similar to the global restore settings in Moodle and to the restore settings you will see when restoring a course manually, you can configure the details for restoring the sandbox courses here.';
 $string['restoresettingswarning'] = 'Please note, that the sandbox does not validate if the uploaded course backup comply with the configured settings. Please make sure that you only check the settings which you really want to restore with the sandbox. Test your settings properly before running the sandbox unattendedly. Make sure that you only enable the restore settings which all of your course backup files comply to, otherwise you risk the sandbox to fail quite graciously when it tries to restore the course backup files.';

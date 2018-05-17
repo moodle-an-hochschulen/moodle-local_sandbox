@@ -15,17 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local plugin "sandbox" - Version file
+ * Local plugin "sandbox" - Privacy provider
  *
  * @package    local_sandbox
- * @copyright  2014 Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @copyright  2018 Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace local_sandbox\privacy;
 
-$plugin->component = 'local_sandbox';
-$plugin->version = 2018051600;
-$plugin->release = 'v3.4-r3';
-$plugin->requires = 2017111300;
-$plugin->maturity = MATURITY_STABLE;
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Privacy Subsystem implementing null_provider.
+ *
+ * @package    local_sandbox
+ * @copyright  2018 Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
