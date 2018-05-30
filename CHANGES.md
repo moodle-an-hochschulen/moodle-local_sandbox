@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2018-05-30 - Check compatibility for Moodle 3.5, no functionality change.
+
 ### v3.4-r4
 
 * 2018-05-16 - Implement Privacy API.
