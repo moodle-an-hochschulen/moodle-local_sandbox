@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2018-07-23 - Remove deprecated strings file as the strings were fully depreated before.
+
 ### v3.5-r1
 
 * 2018-05-30 - Check compatibility for Moodle 3.5, no functionality change.

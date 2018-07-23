@@ -1,5 +1,0 @@
-coursebackupsdirectory,local_sandbox
-coursebackupsdirectory_desc,local_sandbox
-errordirectorynotexist,local_sandbox
-errordirectorynotreadable,local_sandbox
-noticedirectorynotconfigured,local_sandbox
