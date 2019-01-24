@@ -65,7 +65,13 @@ class local_sandbox_restore_controller extends restore_controller {
                 $setting = $plan->get_setting($settingname);
                 $value = get_config('local_sandbox', $config);
                 $setting->set_status(base_setting::NOT_LOCKED); // Otherwise, we won't be allowed to set the value now.
-                $setting->set_value($value);
+                // Only change the setting if the corresponding XML file is integrated in the backup file.
+                // We can only disable restore settings of the restore plan has enabled them.
+                // Enabling restore settings which are not enabled in the restore plan would let the restore job fail
+                // with the error "Backup is missing XML file".
+                if ($setting->get_value() == true) {
+                    $setting->set_value($value);
+                }
             }
         }
         /* KIZ MODIFICATION END */

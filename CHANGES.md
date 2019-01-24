@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2019-01-24 - Fixed a bug that could lead to failed tasks when backup did not contain a selected option.
 * 2018-12-05 - Changed travis.yml due to upstream changes.
 * 2018-07-23 - Remove deprecated strings file as the strings were fully depreated before.
 
