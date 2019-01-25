@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v3.6-r1
 
 * 2019-01-25 - Check compatibility for Moodle 3.6, no functionality change.
 
