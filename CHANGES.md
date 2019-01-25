@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2019-01-25 - Check compatibility for Moodle 3.6, no functionality change.
+
 ### v3.5-r2
 
 * 2019-01-24 - Fixed a bug that could lead to failed tasks when backup did not contain a selected option.

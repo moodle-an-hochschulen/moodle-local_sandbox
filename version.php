@@ -27,5 +27,5 @@ defined('MOODLE_INTERNAL') || die;
 $plugin->component = 'local_sandbox';
 $plugin->version = 2019012400;
 $plugin->release = 'v3.5-r2';
-$plugin->requires = 2018051700;
+$plugin->requires = 2018120300;
 $plugin->maturity = MATURITY_STABLE;
