@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2020-02-13 - Prepare compatibility for Moodle 3.8.
+
 ### v3.7-r1
 
 * 2019-08-08 - Prepare compatibility for Moodle 3.7.
