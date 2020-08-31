@@ -6,6 +6,7 @@ Changes
 
 ## Unreleased
 
+* 2020-08-31 - Replaced deprecated function generate_uuid().
 * 2020-08-31 - Prepare compatibility for Moodle 3.9.
 * 2020-02-17 - Added behat tests.
 
