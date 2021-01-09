@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-## v3.9-r1
+### v3.9-r1
 
 * 2020-08-31 - Replaced deprecated function generate_uuid().
 * 2020-08-31 - Prepare compatibility for Moodle 3.9.
