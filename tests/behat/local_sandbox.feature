@@ -67,9 +67,9 @@ Feature: Configuring the sandbox plugin
     When I run the scheduled task "local_sandbox\task\restore_courses"
     And I am on "Sandbox Test Course" course homepage
     And I navigate to "Edit settings" in current page administration
-    Then I should see "##today##j##" in the "#id_startdate_day" "css_element"
-    And I should see "##today##F##" in the "#id_startdate_month" "css_element"
-    And I should see "##today##Y##" in the "#id_startdate_year" "css_element"
+    Then I should see "##today##%d##" in the "#id_startdate_day" "css_element"
+    And I should see "##today##%B##" in the "#id_startdate_month" "css_element"
+    And I should see "##today##%Y##" in the "#id_startdate_year" "css_element"
 
   Scenario: Counter check: Disable "Adjust course start date"
     Given the following config values are set as admin:
