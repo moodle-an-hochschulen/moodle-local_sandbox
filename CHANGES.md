@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v3.9-r3
 
 * 2021-10-07 - Fix a faulty Behat test
 * 2021-02-05 - Move Moodle Plugin CI from Travis CI to Github actions
