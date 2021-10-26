@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2021-10-26 - Prepare compatibility for Moodle 3.11
+
 ### v3.10-r2
 
 * 2021-10-07 - Fix a faulty Behat test
