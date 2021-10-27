@@ -1,7 +1,7 @@
 moodle-local_sandbox
 ====================
 
-[![Moodle Plugin CI](https://github.com/moodleuulm/moodle-local_sandbox/workflows/Moodle%20Plugin%20CI/badge.svg?branch=master)](https://github.com/moodleuulm/moodle-local_sandbox/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amaster)
+[![Moodle Plugin CI](https://github.com/moodleuulm/moodle-local_sandbox/workflows/Moodle%20Plugin%20CI/badge.svg?branch=MOODLE_311_STABLE)](https://github.com/moodleuulm/moodle-local_sandbox/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3AMOODLE_311_STABLE)
 
 Moodle plugin which programatically restores courses to predefined course states. It can be used to provide playground moodle courses which will be cleaned periodically
 
