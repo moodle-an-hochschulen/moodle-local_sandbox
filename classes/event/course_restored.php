@@ -24,8 +24,6 @@
 
 namespace local_sandbox\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The local_sandbox course restored event class.
  *
