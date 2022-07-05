@@ -57,6 +57,7 @@ class local_sandbox_restore_controller extends restore_controller {
         ];
 
         $plan = $this->get_plan();
+        $backupsettings = $plan->get_info()->root_settings;
         foreach ($settings as $config => $settingname) {
             if ($plan->setting_exists($settingname)) {
                 $setting = $plan->get_setting($settingname);
@@ -66,7 +67,7 @@ class local_sandbox_restore_controller extends restore_controller {
                 // We can only disable restore settings of the restore plan has enabled them.
                 // Enabling restore settings which are not enabled in the restore plan would let the restore job fail
                 // with the error "Backup is missing XML file".
-                if ($setting->get_value() == true) {
+                if (!empty($backupsettings[$settingname])) {
                     $setting->set_value($value);
                 }
             }
