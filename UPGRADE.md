@@ -28,3 +28,9 @@ Manual tests
 
 * There aren't any manual tests needed to upgrade this plugin.
 * However, if you look at the Behat feature file, you will see that there are some scenarios still commented out. If you have time, you should test them manually or write a Behat test for it.
+
+
+Visual checks
+-------------
+
+* There aren't any additional visual checks in the Moodle GUI needed to upgrade this theme.
