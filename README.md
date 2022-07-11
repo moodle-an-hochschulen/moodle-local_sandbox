@@ -122,6 +122,12 @@ For admins upgrading from a version before this change to a recent version of th
 Within the plugin upgrade process, the course backup files are copied automatically to the new filearea within Moodle. After the plugin has been upgraded, you can delete the legacy course backups directory manually.
 
 
+Capabilities
+------------
+
+This plugin does not add any additional capabilities.
+
+
 How this plugin works
 ---------------------
 
