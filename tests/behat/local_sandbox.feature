@@ -10,7 +10,8 @@ Feature: Configuring the sandbox plugin
       | Sandbox Test Course | sandbox-test |
     And I log in as "admin"
     And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Restore" in current page administration
+    And I navigate to "Course reuse" in current page administration
+    And I select "Restore" from the "jump" singleselect
     And I upload "local/sandbox/tests/fixtures/sandbox-test.mbz" file to "Files" filemanager
     And I click on "Restore" "button"
     And I click on "Continue" "button"
@@ -60,13 +61,13 @@ Feature: Configuring the sandbox plugin
       | adjustcoursestartdate | 1     | local_sandbox |
     When I log in as "admin"
     And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     Then I should see "1" in the "#id_startdate_day" "css_element"
     And I should see "January" in the "#id_startdate_month" "css_element"
     And I should see "2000" in the "#id_startdate_year" "css_element"
     When I run the scheduled task "local_sandbox\task\restore_courses"
     And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     Then I should see "##today##%d##" in the "#id_startdate_day" "css_element"
     And I should see "##today##%B##" in the "#id_startdate_month" "css_element"
     And I should see "##today##%Y##" in the "#id_startdate_year" "css_element"
@@ -77,13 +78,13 @@ Feature: Configuring the sandbox plugin
       | adjustcoursestartdate | 0     | local_sandbox |
     When I log in as "admin"
     And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     Then I should see "1" in the "#id_startdate_day" "css_element"
     And I should see "January" in the "#id_startdate_month" "css_element"
     And I should see "2000" in the "#id_startdate_year" "css_element"
     When I run the scheduled task "local_sandbox\task\restore_courses"
     And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     Then I should see "1" in the "#id_startdate_day" "css_element"
     And I should see "January" in the "#id_startdate_month" "css_element"
     And I should see "2000" in the "#id_startdate_year" "css_element"
@@ -120,14 +121,12 @@ Feature: Configuring the sandbox plugin
     Then I should see "Welcome to your sandbox course."
     And I log out
     When I log in as "admin"
-    And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Users > Enrolment methods" in current page administration
+    And I am on the "Sandbox Test Course" "enrolment methods" page
     And I click on "Delete" "link" in the "Self enrol (Teacher)" "table_row"
     And I click on "Continue" "button"
     Then I should not see "Self enrol (Teacher)"
     And I run the scheduled task "local_sandbox\task\restore_courses"
-    And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Users > Enrolment methods" in current page administration
+    And I am on the "Sandbox Test Course" "enrolment methods" page
     Then I should see "Self enrol (Teacher)"
 
   # We do not test this setting
