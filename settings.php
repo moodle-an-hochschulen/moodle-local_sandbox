@@ -87,9 +87,9 @@ if ($hassiteconfig) {
                 // Can not use actual constants here because we'd need to include 100 of backup/restore files.
                 // Don't use string lazy loading here because the strings will be directly used and
                 // would produce a PHP warning otherwise.
-                0/*backup::ENROL_NEVER*/     => get_string('rootsettingenrolments_never', 'backup'),
+                0/*backup::ENROL_NEVER*/ => get_string('rootsettingenrolments_never', 'backup'),
                 1/*backup::ENROL_WITHUSERS*/ => get_string('rootsettingenrolments_withusers', 'backup'),
-                2/*backup::ENROL_ALWAYS*/    => get_string('rootsettingenrolments_always', 'backup'),
+                2/*backup::ENROL_ALWAYS*/ => get_string('rootsettingenrolments_always', 'backup'),
         ];
         $page->add(new admin_setting_configselect('local_sandbox/restore_general_enrolments',
                 get_string('generalenrolments', 'backup', null, true),

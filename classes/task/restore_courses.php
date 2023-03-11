@@ -197,7 +197,7 @@ class restore_courses extends \core\task\scheduled_task {
                     // Log the event.
                     $logevent = \local_sandbox\event\course_restored::create(array(
                             'objectid' => $newcourseid,
-                            'context'  => \context_course::instance($newcourseid)
+                            'context' => \context_course::instance($newcourseid)
                     ));
                     $logevent->trigger();
 
@@ -205,9 +205,9 @@ class restore_courses extends \core\task\scheduled_task {
                     $course = $DB->get_record('course', array('id' => $newcourseid));
                     $ccevent = \core\event\course_created::create(array(
                             'objectid' => $course->id,
-                            'context'  => \context_course::instance($course->id),
-                            'other'    => array('shortname' => $course->shortname,
-                                                'fullname'  => $course->fullname)
+                            'context' => \context_course::instance($course->id),
+                            'other' => array('shortname' => $course->shortname,
+                                    'fullname' => $course->fullname)
                     ));
                     $ccevent->trigger();
 
