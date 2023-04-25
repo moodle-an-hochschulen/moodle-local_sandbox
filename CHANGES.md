@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v4.1-r1
 
 * 2023-01-21 - Prepare compatibility for Moodle 4.1.
 * 2023-03-11 - Make codechecker happy again
