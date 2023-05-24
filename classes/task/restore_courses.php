@@ -49,11 +49,12 @@ class restore_courses extends \core\task\scheduled_task {
         return get_string('taskrestorecourses', 'local_sandbox');
     }
 
-
     /**
      * Execute scheduled task
      *
      * @return boolean
+     * @throws restore_controller_exception
+     * @throws Exception
      */
     public function execute() {
         global $CFG, $DB;
