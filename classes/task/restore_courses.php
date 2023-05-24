@@ -160,7 +160,12 @@ class restore_courses extends \core\task\scheduled_task {
                 if ($controller = new \local_sandbox_restore_controller($backupid, $newcourseid, \backup::INTERACTIVE_NO,
                         \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
                     $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
-                    $controller->execute_precheck();
+                    if (!$controller->execute_precheck()) {
+                        $precheckresults = $controller->get_precheck_results();
+                        if (array_key_exists('errors', $precheckresults)) {
+                            echo "\n\tError(s): " . $precheckresults['errors'];
+                        }
+                    }
                     $controller->execute_plan();
                 } else {
                     // Output error message for cron listing.
