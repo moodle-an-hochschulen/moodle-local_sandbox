@@ -24,6 +24,9 @@
 
 namespace local_sandbox\task;
 
+use Exception;
+use restore_controller_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
