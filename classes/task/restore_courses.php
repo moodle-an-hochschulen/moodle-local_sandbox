@@ -76,7 +76,7 @@ class restore_courses extends \core\task\scheduled_task {
                 echo "\n\t" . get_string('nowprocessing', 'local_sandbox', $shortname) . "\n";
 
                 // Get existing course information.
-                if ($oldcourse = $DB->get_record('course', array('shortname' => $shortname))) {
+                if ($oldcourse = $DB->get_record('course', ['shortname' => $shortname])) {
                     $oldcourseid = $oldcourse->id;
                     $categoryid = $oldcourse->category;
                     $fullname = $oldcourse->fullname;
@@ -171,7 +171,7 @@ class restore_courses extends \core\task\scheduled_task {
 
                 // Adjust course start date.
                 if ($localsandboxconfig->adjustcoursestartdate == true) {
-                    if (!$DB->update_record('course', (object)array('id' => $newcourseid, 'startdate' => time()))) {
+                    if (!$DB->update_record('course', (object)['id' => $newcourseid, 'startdate' => time()])) {
                         // Output error message for cron listing.
                         echo "\n\t" . get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname) . "\n";
 
@@ -186,7 +186,7 @@ class restore_courses extends \core\task\scheduled_task {
 
                 // Set shortname and fullname back.
                 if ($DB->update_record('course',
-                        (object)array('id' => $newcourseid, 'shortname' => $shortname, 'fullname' => $fullname))) {
+                        (object)['id' => $newcourseid, 'shortname' => $shortname, 'fullname' => $fullname])) {
                     // Output info message for cron listing.
                     echo "\n\t" . get_string('successrestored', 'local_sandbox', $shortname) . "\n";
 
@@ -195,20 +195,20 @@ class restore_courses extends \core\task\scheduled_task {
                             SANDBOX_LEVEL_NOTICE);
 
                     // Log the event.
-                    $logevent = \local_sandbox\event\course_restored::create(array(
+                    $logevent = \local_sandbox\event\course_restored::create([
                             'objectid' => $newcourseid,
-                            'context' => \context_course::instance($newcourseid)
-                    ));
+                            'context' => \context_course::instance($newcourseid),
+                    ]);
                     $logevent->trigger();
 
                     // Fire course_updated event.
-                    $course = $DB->get_record('course', array('id' => $newcourseid));
-                    $ccevent = \core\event\course_created::create(array(
+                    $course = $DB->get_record('course', ['id' => $newcourseid]);
+                    $ccevent = \core\event\course_created::create([
                             'objectid' => $course->id,
                             'context' => \context_course::instance($course->id),
-                            'other' => array('shortname' => $course->shortname,
-                                    'fullname' => $course->fullname)
-                    ));
+                            'other' => ['shortname' => $course->shortname,
+                                    'fullname' => $course->fullname, ],
+                    ]);
                     $ccevent->trigger();
 
                     // Count successfully restored course.

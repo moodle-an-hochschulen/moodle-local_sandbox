@@ -81,7 +81,7 @@ function local_sandbox_getfiles() {
     $files = $fs->get_area_files($context->id, 'local_sandbox', 'coursebackups');
 
     // Initialize backup files array.
-    $backupfiles = array();
+    $backupfiles = [];
 
     // Get course shortnames from filenames.
     foreach ($files as $file) {
