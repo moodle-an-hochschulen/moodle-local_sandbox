@@ -66,6 +66,6 @@ class course_restored extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/course/view.php', array('id' => $this->objectid));
+        return new \moodle_url('/course/view.php', ['id' => $this->objectid]);
     }
 }

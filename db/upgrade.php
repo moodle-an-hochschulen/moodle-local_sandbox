@@ -31,7 +31,7 @@ function xmldb_local_sandbox_upgrade($oldversion) {
     if ($oldversion < 2014051200) {
         echo html_writer::tag('div',
                 get_string('upgrade_notice_2014051200', 'local_sandbox'),
-                array('class' => 'alert alert-info'));
+                ['class' => 'alert alert-info']);
 
         unset_config('cronruntimehour', 'local_sandbox');
         unset_config('cronruntimemin', 'local_sandbox');
@@ -44,9 +44,9 @@ function xmldb_local_sandbox_upgrade($oldversion) {
         // Prepare filearea.
         $context = \context_system::instance();
         $fs = get_file_storage();
-        $filerecord = array('component' => 'local_sandbox', 'filearea' => 'coursebackups',
+        $filerecord = ['component' => 'local_sandbox', 'filearea' => 'coursebackups',
                             'contextid' => $context->id, 'itemid' => 0, 'filepath' => '/',
-                            'filename' => '');
+                            'filename' => '', ];
 
         // Prepare documents directory.
         $coursebackupsdirectory = get_config('local_sandbox', 'coursebackupsdirectory');
@@ -54,7 +54,7 @@ function xmldb_local_sandbox_upgrade($oldversion) {
 
         if ($handle) {
             // Array to remember file to be deleted from course backups directory.
-            $todelete = array();
+            $todelete = [];
 
             // Fetch all files from course backups directory.
             while (false !== ($file = readdir($handle))) {
@@ -82,7 +82,7 @@ function xmldb_local_sandbox_upgrade($oldversion) {
 
             // Show an info message that course backups directory is no longer needed.
             $message = get_string('upgrade_notice_2018020902', 'local_sandbox', $coursebackupsdirectory);
-            echo html_writer::tag('div', $message, array('class' => 'alert alert-info'));
+            echo html_writer::tag('div', $message, ['class' => 'alert alert-info']);
         }
 
         // Remove course backups directory setting because it is not needed anymore.

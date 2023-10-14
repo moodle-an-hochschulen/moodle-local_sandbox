@@ -57,7 +57,7 @@ if ($hassiteconfig) {
                 get_string('coursebackups_desc', 'local_sandbox', null, true),
                 'coursebackups',
                 0,
-                array('maxfiles' => -1, 'accepted_types' => '.mbz')));
+                ['maxfiles' => -1, 'accepted_types' => '.mbz']));
 
         // Create change course start date control widget.
         $page->add(new admin_setting_configcheckbox('local_sandbox/adjustcoursestartdate',
@@ -155,7 +155,7 @@ if ($hassiteconfig) {
         $page->add(new admin_setting_users_with_capability('local_sandbox/notifyonerrors',
                 get_string('notifyonerrors', 'local_sandbox', null, true),
                 get_string('notifyonerrors_desc', 'local_sandbox', null, true),
-                array(),
+                [],
                 'moodle/site:config'));
 
         // Create user notification level widget.

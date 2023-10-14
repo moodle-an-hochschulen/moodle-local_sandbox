@@ -40,7 +40,7 @@ class local_sandbox_restore_controller extends restore_controller {
 
         /* KIZ MODIFICATION START
            REASON: Overwrite default restore settings with plugin-specific restore settings. */
-        $settings = array(
+        $settings = [
                 'restore_general_users' => 'users',
                 'restore_general_enrolments' => 'enrolments',
                 'restore_general_role_assignments' => 'role_assignments',
@@ -54,8 +54,8 @@ class local_sandbox_restore_controller extends restore_controller {
                 'restore_general_logs' => 'logs',
                 'restore_general_histories' => 'grade_histories',
                 'restore_general_groups' => 'groups',
-                'restore_general_competencies' => 'competencies'
-        );
+                'restore_general_competencies' => 'competencies',
+        ];
 
         $plan = $this->get_plan();
         foreach ($settings as $config => $settingname) {

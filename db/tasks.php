@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
+$tasks = [
+    [
         'classname' => 'local_sandbox\task\restore_courses',
         'blocking' => 1,
         'minute' => '0',
@@ -33,6 +33,6 @@ $tasks = array(
         'day' => '*',
         'dayofweek' => '0',
         'month' => '*',
-        'disabled' => 1
-    ),
-);
+        'disabled' => 1,
+    ],
+];
