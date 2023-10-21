@@ -9,7 +9,7 @@ Moodle plugin which programatically restores courses to predefined course states
 Requirements
 ------------
 
-This plugin requires Moodle 4.2+
+This plugin requires Moodle 4.3+
 
 
 Motivation for this plugin
