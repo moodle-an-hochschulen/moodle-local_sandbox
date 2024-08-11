@@ -45,7 +45,7 @@ Moodle core supports a system called "Scheduled tasks". The execution time setti
 
 By default, sandbox's scheduled task is disabled in the "Scheduled tasks" system. You have to enable it there to make use of this plugin.
 
-By default, sandbox's scheduled task is set to run every sunday on 1:00 GMT in the "Scheduled tasks" system. Please change this time according to your needs.
+By default, sandbox's scheduled task is set to run every sunday on 1:00 in the "Scheduled tasks" system. Please change this time according to your needs.
 
 ### 2. Course backups
 
@@ -126,6 +126,17 @@ Capabilities
 ------------
 
 This plugin does not add any additional capabilities.
+
+
+Scheduled Tasks
+---------------
+
+This plugin also introduces these additional scheduled tasks:
+
+### \local_sandbox\task\restore_courses
+
+This task is the core of this plugin and resets the configured courses (see above for details).\
+By default, the task is enabled and runs every sunday on 1:00.
 
 
 How this plugin works
