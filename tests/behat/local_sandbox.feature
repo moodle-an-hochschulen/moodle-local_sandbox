@@ -33,11 +33,11 @@ Feature: Configuring the sandbox plugin
       | Assignment name | This is an assignment |
     And I add the "Calendar" block
     Then I should see "This is an assignment"
-    And I should see "Calendar" in the "//*[@id='region-pre' or @id='block-region-side-pre']/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' block ')]" "xpath_element"
+    And I should see "Calendar" in the "#block-region-side-pre .block_calendar_month" "css_element"
     When I run the scheduled task "local_sandbox\task\restore_courses"
     And I am on "Sandbox Test Course" course homepage
     Then I should not see "This is an assignment"
-    And "//*[@id='region-pre' or @id='block-region-side-pre']" "xpath_element" should not be visible
+    And "#block-region-side-pre .block_calendar_month" "css_element" should not exist
 
   Scenario: Check if enrolled users are removed after the restore.
     Given the following "users" exist:
