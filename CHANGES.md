@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-08-19 - Fix a behat test which broke recently
 * 2024-08-11 - Add section for scheduled tasks to README
 * 2024-08-11 - Updated Moodle Plugin CI to latest upstream recommendations
 
