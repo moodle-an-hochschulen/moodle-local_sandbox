@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v4.3-r2
 
 * 2024-08-19 - Fix a behat test which broke recently
 * 2024-08-11 - Add section for scheduled tasks to README
