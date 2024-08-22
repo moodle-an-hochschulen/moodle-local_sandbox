@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-08-22 - Upgrade: Make the scheduled task non-blocking as this has been deprecated in Moodle core.
 * 2024-08-22 - Upgrade: Replace deprecated Behat steps and fix a Behat scenario which broke on 4.4.
 * 2024-08-20 - Prepare compatibility for Moodle 4.4.
 

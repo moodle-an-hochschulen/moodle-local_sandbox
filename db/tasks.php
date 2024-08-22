@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 $tasks = [
     [
         'classname' => 'local_sandbox\task\restore_courses',
-        'blocking' => 1,
+        'blocking' => 0,
         'minute' => '0',
         'hour' => '1',
         'day' => '*',
