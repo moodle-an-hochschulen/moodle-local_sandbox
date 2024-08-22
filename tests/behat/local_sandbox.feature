@@ -8,19 +8,16 @@ Feature: Configuring the sandbox plugin
     Given the following "courses" exist:
       | fullname            | shortname    |
       | Sandbox Test Course | sandbox-test |
+    And the following config values are set as admin:
+      | enableasyncbackup | 0 |
     And I log in as "admin"
-    And I am on "Sandbox Test Course" course homepage
-    And I navigate to "Course reuse" in current page administration
-    And I select "Restore" from the "jump" singleselect
+    And I am on the "Sandbox Test Course" "restore" page
+    And I click on "Manage course backups" "button"
     And I upload "local/sandbox/tests/fixtures/sandbox-test.mbz" file to "Files" filemanager
-    And I click on "Restore" "button"
-    And I click on "Continue" "button"
-    And I click on "Continue" "button" in the ".bcs-current-course.backup-section" "css_element"
-    And I click on "Next" "button"
-    And I select "Yes" from the "Overwrite course configuration" singleselect
-    And I click on "Next" "button"
-    And I click on "Perform restore" "button"
-    And I click on "Continue" "button"
+    And I click on "Save changes" "button"
+    And I am on the "Sandbox Test Course" "restore" page
+    And I merge "sandbox-test.mbz" backup into the current course after deleting it's contents using this options:
+      | Schema | Overwrite course configuration | Yes |
     And I navigate to "Courses > Sandbox" in site administration
     And I upload "local/sandbox/tests/fixtures/sandbox-test.mbz" file to "Course backups" filemanager
     And I click on "Save changes" "button"
@@ -29,7 +26,7 @@ Feature: Configuring the sandbox plugin
   Scenario: Check basic restore functionality.
     When I log in as "admin"
     And I am on "Sandbox Test Course" course homepage with editing mode on
-    And I add a "Assignment" to section "1" and I fill the form with:
+    And I add a assign activity to course "Sandbox Test Course" section "1" and I fill the form with:
       | Assignment name | This is an assignment |
     And I add the "Calendar" block
     Then I should see "This is an assignment"
