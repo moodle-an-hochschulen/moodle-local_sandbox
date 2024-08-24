@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v4.4-r1
 
 * 2024-08-24 - Development: Rename master branch to main, please update your clones.
 * 2024-08-22 - Upgrade: Make the scheduled task non-blocking as this has been deprecated in Moodle core.
