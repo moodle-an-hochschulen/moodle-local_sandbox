@@ -60,7 +60,7 @@ function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
     // Send mail.
     foreach ($recipients as $r) {
         // Email the admin directly rather than putting these through the messaging system.
-        email_to_user($r, core_user::get_support_user(), $subject, $message);
+        email_to_user($r, \core\user::get_support_user(), $subject, $message);
     }
 }
 
