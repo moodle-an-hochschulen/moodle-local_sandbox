@@ -137,6 +137,11 @@ class restore_courses extends \core\task\scheduled_task {
                 $filepacker = get_file_packer('application/vnd.moodle.backup');
                 $foldername = \core\uuid::generate();
                 $temppath = $CFG->dataroot . '/temp/backup/' . $foldername;
+                if(!empty($CFG->backuptempdir) && is_dir($CFG->backuptempdir)) {
+                    // Use the set backuptempdir from config,
+                    // as restore_controller will use it for processing.
+                    $temppath = $CFG->backuptempdir . DIRECTORY_SEPARATOR . $foldername;
+                }
                 if (!$filepacker->extract_to_pathname($file, $temppath)) {
                     // Output error message for cron listing.
                     echo "\n\t" . get_string('skippingunzipfailed', 'local_sandbox', $file) . "\n";
