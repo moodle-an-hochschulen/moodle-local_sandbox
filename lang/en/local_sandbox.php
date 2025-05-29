@@ -56,6 +56,7 @@ $string['notifyonerrors'] = 'Email failures to';
 $string['notifyonerrors_desc'] = 'If sandbox failures occur, email notifications can be sent out. Who should see these notifications?';
 $string['nowprocessing'] = 'NOW: Processing course "{$a}"';
 $string['pluginname'] = 'Sandbox';
+$string['precheckerror'] = 'Precheck error(s)';
 $string['privacy:metadata'] = 'The sandbox plugin provides extended functionality to Moodle admins, but does not store any personal data.';
 $string['restoreheading'] = 'Restore settings';
 $string['restoresettingsdescription'] = 'Similar to the global restore settings in Moodle and to the restore settings you will see when restoring a course manually, you can configure the details for restoring the sandbox courses here.';
