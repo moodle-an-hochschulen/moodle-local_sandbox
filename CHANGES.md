@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2025-05-29 - Bugfix: Backup directory path was incorrect if CFG->backuptempdir is set, resolves #14.
+
 ### v4.5-r1
 
 * 2024-10-14 - Upgrade: Adopt changes from MDL-82183 and use new \core\output\html_writer
