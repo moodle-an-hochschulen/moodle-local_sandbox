@@ -57,17 +57,20 @@ class local_sandbox_restore_controller extends restore_controller {
         ];
 
         $plan = $this->get_plan();
+        // Get the settings from the backup file to check which restore options are available in the backup.
         $backupsettings = $plan->get_info()->root_settings;
         foreach ($settings as $config => $settingname) {
             if ($plan->setting_exists($settingname)) {
                 $setting = $plan->get_setting($settingname);
                 $value = get_config('local_sandbox', $config);
                 $setting->set_status(base_setting::NOT_LOCKED); // Otherwise, we won't be allowed to set the value now.
-                // Only change the setting if the corresponding XML file is integrated in the backup file.
-                // We can only disable restore settings of the restore plan has enabled them.
-                // Enabling restore settings which are not enabled in the restore plan would let the restore job fail
-                // with the error "Backup is missing XML file".
-                if (!empty($backupsettings[$settingname])) {
+                // Only change the setting if the corresponding XML file is integrated in the backup file OR
+                // if the setting doesn't require a specific XML file (like enrolments).
+                // Enabling restore settings which are not available in the backup would let the restore job fail.
+                // Exception: Some settings like 'enrolments' don't have a corresponding XML file in the backup
+                // but are always available as they control restore behavior, not data inclusion.
+                $settingswithoutxml = ['enrolments'];
+                if (isset($backupsettings[$settingname]) || in_array($settingname, $settingswithoutxml)) {
                     $setting->set_value($value);
                 }
             }

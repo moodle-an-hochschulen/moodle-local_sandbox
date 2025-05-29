@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2026-02-07 - Bugfix: Take restore settings from plugin settings and backup file instead of course restore settings, resolves #8.
+
 ### v4.5-r3
 
 * 2025-10-15 - Make codechecker happy again

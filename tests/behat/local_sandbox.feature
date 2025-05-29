@@ -126,41 +126,49 @@ Feature: Configuring the sandbox plugin
   # We do not test this setting
   # Scenario: Enable "Include users" setting
 
-  Scenario: Enable "Include enrolment methods" setting
+  Scenario Outline: Enable "Include enrolment methods" setting
     Given the following config values are set as admin:
-      | config                     | value | plugin        |
-      | restore_general_enrolments | 2     | local_sandbox |
-    And the following "users" exist:
-      | username | firstname | lastname |
-      | user1    | User      | 1        |
-    When I log in as "user1"
-    And I am on "Sandbox Test Course" course homepage
-    And I click on "Enrol me" "button"
-    Then I should see "Welcome to your sandbox course."
-    And I log out
+      | config                     | value         | plugin        |
+      | restore_general_enrolments | <globalvalue> | restore       |
+      | restore_general_enrolments | <pluginvalue> | local_sandbox |
     When I log in as "admin"
     And I am on the "Sandbox Test Course" "enrolment methods" page
     And I click on "Delete" "link" in the "Self enrol (Teacher)" "table_row"
     And I click on "Continue" "button"
-    Then I should not see "Self enrol (Teacher)"
+    And I should not see "Self enrol (Teacher)"
     And I run the scheduled task "local_sandbox\task\restore_courses"
     And I am on the "Sandbox Test Course" "enrolment methods" page
-    Then I should see "Self enrol (Teacher)"
+    Then I <shouldornot> see "Self enrol (Teacher)"
+
+    Examples:
+      | globalvalue | pluginvalue | shouldornot |
+      | 0           | 0           | should not  |
+      | 0           | 2           | should      |
+      | 2           | 0           | should not  |
+      | 2           | 2           | should      |
 
   # We do not test this setting
   # Scenario: Enable "Include role assignments" setting
 
-  Scenario: Enable "Include activities and resources" setting
+  Scenario Outline: Enable "Include activities and resources" setting
     Given the following config values are set as admin:
-      | config                           | value | plugin        |
-      | restore_general_activities       | 1     | local_sandbox |
+      | config                     | value         | plugin        |
+      | restore_general_activities | <globalvalue> | restore       |
+      | restore_general_activities | <pluginvalue> | local_sandbox |
     When I log in as "admin"
     And I am on "Sandbox Test Course" course homepage with editing mode on
-    Then I should see "Welcome to your sandbox course."
+    And I should see "Welcome to your sandbox course."
     And I delete "Welcome to your sandbox course." activity
     And I run the scheduled task "local_sandbox\task\restore_courses"
     And I am on "Sandbox Test Course" course homepage
-    Then I should see "Welcome to your sandbox course."
+    Then I <shouldornot> see "Welcome to your sandbox course."
+
+    Examples:
+      | globalvalue | pluginvalue | shouldornot |
+      | 0           | 0           | should not  |
+      | 0           | 1           | should      |
+      | 1           | 0           | should not  |
+      | 1           | 1           | should      |
 
   # We do not test this setting
   # Scenario: Enable "Include blocks" setting
