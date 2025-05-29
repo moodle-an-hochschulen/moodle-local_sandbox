@@ -71,6 +71,12 @@ if ($hassiteconfig) {
                 get_string('keepcourseid_desc', 'local_sandbox', null, true),
                 0));
 
+        // Create keep course name control widget.
+        $page->add(new admin_setting_configcheckbox('local_sandbox/keepcoursename',
+                get_string('keepcoursename', 'local_sandbox', null, true),
+                get_string('keepcoursename_desc', 'local_sandbox', null, true),
+                1));
+
         // Restore settings.
         $html = html_writer::tag('p', get_string('restoresettingsdescription', 'local_sandbox', null, true));
         $html .= html_writer::tag('p', get_string('restoresettingswarning', 'local_sandbox', null, true));

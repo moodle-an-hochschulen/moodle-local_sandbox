@@ -198,9 +198,13 @@ class restore_courses extends \core\task\scheduled_task {
                     }
                 }
 
-                // Set shortname and fullname back.
-                if ($DB->update_record('course',
-                        (object)['id' => $newcourseid, 'shortname' => $shortname, 'fullname' => $fullname])) {
+                // Set shortname and fullname (if configured) back.
+                if ($localsandboxconfig->keepcoursename == 1) {
+                    $coursedata = ['id' => $newcourseid, 'shortname' => $shortname, 'fullname' => $fullname];
+                } else {
+                    $coursedata = ['id' => $newcourseid, 'shortname' => $shortname];
+                }
+                if ($DB->update_record('course', (object)$coursedata)) {
                     // Output info message for cron listing.
                     echo "\n\t" . get_string('successrestored', 'local_sandbox', $shortname) . "\n";
 

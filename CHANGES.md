@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2025-05-29 - Feature: Add admin setting to control if the course fullname should be reset as well or not, resolves #6
 * 2025-05-29 - Improvement: Print restore precheck errors to the scheduled task log, resolves #9
 * 2025-05-29 - Bugfix: Backup directory path was incorrect if CFG->backuptempdir is set, resolves #14.
 
