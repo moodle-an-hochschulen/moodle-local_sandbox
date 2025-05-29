@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2025-05-29 - Bugfix: Backup directory path was incorrect if CFG->backuptempdir is set, resolves #14.
+
 ### v5.0-r1
 
 * 2025-04-14 - Prepare compatibility for Moodle 5.0.
