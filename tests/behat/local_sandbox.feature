@@ -99,6 +99,27 @@ Feature: Configuring the sandbox plugin
     And I reload the page
     Then I should see "Sandbox Test Course"
 
+  Scenario Outline: Enable "Keep course name"
+    Given the following config values are set as admin:
+      | config         | value            | plugin        |
+      | keepcoursename | <keepcoursename> | local_sandbox |
+      # We keep the course ID just to be able to reload the course page easily after the restore.
+      | keepcourseid   | 1                | local_sandbox |
+    When I log in as "admin"
+    And I am on "Sandbox Test Course" course homepage
+    And I navigate to "Settings" in current page administration
+    And I set the following fields to these values:
+      | Course full name | Sandbox Edited Course |
+    And I press "Save and display"
+    When I run the scheduled task "local_sandbox\task\restore_courses"
+    And I reload the page
+    Then I should see "<coursename>"
+
+    Examples:
+      | keepcoursename | coursename            |
+      | 0              | Sandbox Test Course   |
+      | 1              | Sandbox Edited Course |
+
   # If the course gets a new ID we would check that there's the error message
   # "Can't find data record in database table course". However behat fails the
   # step because of the Moodle exception.
