@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2026-02-07 - Bugfix: Take restore settings from plugin settings and backup file instead of course restore settings, resolves #8.
+
 ### v5.1-r1
 
 * 2025-10-26 - Prepare compatibility for Moodle 5.1.
