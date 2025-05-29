@@ -161,9 +161,14 @@ class restore_courses extends \core\task\scheduled_task {
                         \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
                     $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
                     if (!$controller->execute_precheck()) {
+                        // If there were precheck errors, output them.
                         $precheckresults = $controller->get_precheck_results();
                         if (array_key_exists('errors', $precheckresults)) {
-                            echo "\n\tError(s): " . $precheckresults['errors'];
+                            echo "\n\t" . get_string('precheckerror', 'local_sandbox') . ':';
+                            foreach ($precheckresults['errors'] as $error) {
+                                echo "\n\t\t* " . $error;
+                            }
+                            echo "\n";
                         }
                     }
                     $controller->execute_plan();
