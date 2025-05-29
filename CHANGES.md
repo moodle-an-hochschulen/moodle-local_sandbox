@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2025-05-29 - Bugfix: Backup directory path was incorrect if CFG->backuptempdir is set, resolves #14.
+
 ### v4.4-r1
 
 * 2024-08-24 - Development: Rename master branch to main, please update your clones.
