@@ -58,6 +58,9 @@ Additionally, in this section, there is an option to set the course start date t
 
 Additionally, in this section, there is an option to let local_sandbox keep the course ID when a course is restored. See the "How this plugin works" section below for details.
 
+Additionally, in this section, there is an option to let local_sandbox keep the course name when a course is restored. This setting is enabled by default and can be particularly helpful if you plan to reset multiple courses with distinct names from identical backup files.
+
+
 ### 3. Restore settings
 
 Similar to the global restore settings on /admin/settings.php?section=restoregeneralsettings and to the restore settings you will see when restoring a course manually, you can configure the details for restoring the sandbox courses here.
