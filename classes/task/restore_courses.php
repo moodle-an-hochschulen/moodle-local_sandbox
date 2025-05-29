@@ -135,8 +135,8 @@ class restore_courses extends \core\task\scheduled_task {
 
                 // Unzip course backup file to temp directory.
                 $filepacker = get_file_packer('application/vnd.moodle.backup');
-                $foldername = \core\uuid::generate();
-                $temppath = $CFG->dataroot . '/temp/backup/' . $foldername;
+                $backupid = \restore_controller::get_tempdir_name($newcourseid);
+                $temppath = make_backup_temp_directory($backupid);
                 if (!$filepacker->extract_to_pathname($file, $temppath)) {
                     // Output error message for cron listing.
                     echo "\n\t" . get_string('skippingunzipfailed', 'local_sandbox', $file) . "\n";
@@ -153,7 +153,7 @@ class restore_courses extends \core\task\scheduled_task {
                 $restoreuser = $admin->id;
 
                 // Restore course backup file into new course.
-                if ($controller = new \local_sandbox_restore_controller($foldername, $newcourseid, \backup::INTERACTIVE_NO,
+                if ($controller = new \local_sandbox_restore_controller($backupid, $newcourseid, \backup::INTERACTIVE_NO,
                         \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
                     $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
                     $controller->execute_precheck();
