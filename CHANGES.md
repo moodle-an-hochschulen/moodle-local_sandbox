@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v4.1-r4
 
 * 2025-05-29 - Feature: Add admin setting to control if the course fullname should be reset as well or not, resolves #6
 * 2025-05-29 - Improvement: Print restore precheck errors to the scheduled task log, resolves #9
