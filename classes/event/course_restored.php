@@ -32,7 +32,6 @@ namespace local_sandbox\event;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_restored extends \core\event\base {
-
     /**
      * Init method.
      */
