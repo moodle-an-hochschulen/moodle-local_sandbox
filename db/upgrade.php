@@ -31,9 +31,11 @@ use core\output\html_writer;
  */
 function xmldb_local_sandbox_upgrade($oldversion) {
     if ($oldversion < 2014051200) {
-        echo html_writer::tag('div',
-                get_string('upgrade_notice_2014051200', 'local_sandbox'),
-                ['class' => 'alert alert-info']);
+        echo html_writer::tag(
+            'div',
+            get_string('upgrade_notice_2014051200', 'local_sandbox'),
+            ['class' => 'alert alert-info']
+        );
 
         unset_config('cronruntimehour', 'local_sandbox');
         unset_config('cronruntimemin', 'local_sandbox');
