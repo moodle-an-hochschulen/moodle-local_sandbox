@@ -39,7 +39,6 @@ require_once(__DIR__ . '/../../locallib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_courses extends \core\task\scheduled_task {
-
     /**
      * Return localised task name.
      *
@@ -59,9 +58,9 @@ class restore_courses extends \core\task\scheduled_task {
     public function execute() {
         global $CFG, $DB;
 
-        require_once($CFG->libdir.'/moodlelib.php');
-        require_once($CFG->libdir.'/filestorage/zip_packer.php');
-        require_once($CFG->dirroot.'/backup/util/includes/restore_includes.php');
+        require_once($CFG->libdir . '/moodlelib.php');
+        require_once($CFG->libdir . '/filestorage/zip_packer.php');
+        require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 
         // Get plugin config.
         $localsandboxconfig = get_config('local_sandbox');
@@ -74,7 +73,6 @@ class restore_courses extends \core\task\scheduled_task {
 
         // Do only if there are course backup files.
         if (count($files) > 0) {
-
             // Process each course backup file.
             foreach ($files as $shortname => $file) {
                 echo "\n\t" . get_string('nowprocessing', 'local_sandbox', $shortname) . "\n";
@@ -89,8 +87,10 @@ class restore_courses extends \core\task\scheduled_task {
                     echo "\n\t" . get_string('skippingnocourse', 'local_sandbox', $shortname) . "\n";
 
                     // Inform admin.
-                    local_sandbox_inform_admin(get_string('skippingnocourse', 'local_sandbox', $shortname),
-                            SANDBOX_LEVEL_WARNING);
+                    local_sandbox_inform_admin(
+                        get_string('skippingnocourse', 'local_sandbox', $shortname),
+                        SANDBOX_LEVEL_WARNING
+                    );
 
                     continue;
                 }
@@ -103,8 +103,10 @@ class restore_courses extends \core\task\scheduled_task {
                         echo "\n\t" . get_string('skippingdeletionfailed', 'local_sandbox', $shortname) . "\n";
 
                         // Inform admin.
-                        local_sandbox_inform_admin(get_string('skippingdeletionfailed', 'local_sandbox', $shortname),
-                                SANDBOX_LEVEL_WARNING);
+                        local_sandbox_inform_admin(
+                            get_string('skippingdeletionfailed', 'local_sandbox', $shortname),
+                            SANDBOX_LEVEL_WARNING
+                        );
 
                         continue;
                     }
@@ -115,8 +117,10 @@ class restore_courses extends \core\task\scheduled_task {
                         echo "\n\t" . get_string('skippingcreatefailed', 'local_sandbox', $shortname) . "\n";
 
                         // Inform admin.
-                        local_sandbox_inform_admin(get_string('skippingcreatefailed', 'local_sandbox', $shortname),
-                                SANDBOX_LEVEL_WARNING);
+                        local_sandbox_inform_admin(
+                            get_string('skippingcreatefailed', 'local_sandbox', $shortname),
+                            SANDBOX_LEVEL_WARNING
+                        );
 
                         continue;
                     }
@@ -130,8 +134,11 @@ class restore_courses extends \core\task\scheduled_task {
                         echo "\n\t" . get_string('skippingdeletecontentfailed', 'local_sandbox', $shortname) . "\n";
 
                         // Inform admin.
-                        local_sandbox_inform_admin(get_string('skippingdeletecontentfailed', 'local_sandbox',
-                                $shortname), SANDBOX_LEVEL_WARNING);
+                        local_sandbox_inform_admin(get_string(
+                            'skippingdeletecontentfailed',
+                            'local_sandbox',
+                            $shortname
+                        ), SANDBOX_LEVEL_WARNING);
 
                         continue;
                     }
@@ -146,8 +153,10 @@ class restore_courses extends \core\task\scheduled_task {
                     echo "\n\t" . get_string('skippingunzipfailed', 'local_sandbox', $file) . "\n";
 
                     // Inform admin.
-                    local_sandbox_inform_admin(get_string('skippingunzipfailed', 'local_sandbox', $shortname),
-                            SANDBOX_LEVEL_WARNING);
+                    local_sandbox_inform_admin(
+                        get_string('skippingunzipfailed', 'local_sandbox', $shortname),
+                        SANDBOX_LEVEL_WARNING
+                    );
 
                     continue;
                 }
@@ -157,8 +166,16 @@ class restore_courses extends \core\task\scheduled_task {
                 $restoreuser = $admin->id;
 
                 // Restore course backup file into new course.
-                if ($controller = new \local_sandbox_restore_controller($backupid, $newcourseid, \backup::INTERACTIVE_NO,
-                        \backup::MODE_SAMESITE, $restoreuser, \backup::TARGET_NEW_COURSE)) {
+                if (
+                    $controller = new \local_sandbox_restore_controller(
+                        $backupid,
+                        $newcourseid,
+                        \backup::INTERACTIVE_NO,
+                        \backup::MODE_SAMESITE,
+                        $restoreuser,
+                        \backup::TARGET_NEW_COURSE
+                    )
+                ) {
                     $controller->get_logger()->set_next(new \output_indented_logger(\backup::LOG_INFO, false, true));
                     if (!$controller->execute_precheck()) {
                         // If there were precheck errors, output them.
@@ -177,8 +194,10 @@ class restore_courses extends \core\task\scheduled_task {
                     echo "\n\t" . get_string('skippingrestorefailed', 'local_sandbox', $shortname) . "\n";
 
                     // Inform admin.
-                    local_sandbox_inform_admin(get_string('skippingrestorefailed', 'local_sandbox', $shortname),
-                            SANDBOX_LEVEL_WARNING);
+                    local_sandbox_inform_admin(
+                        get_string('skippingrestorefailed', 'local_sandbox', $shortname),
+                        SANDBOX_LEVEL_WARNING
+                    );
 
                     continue;
                 }
@@ -191,8 +210,9 @@ class restore_courses extends \core\task\scheduled_task {
 
                         // Inform admin.
                         local_sandbox_inform_admin(
-                                get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname),
-                                SANDBOX_LEVEL_WARNING);
+                            get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname),
+                            SANDBOX_LEVEL_WARNING
+                        );
 
                         continue;
                     }
@@ -209,8 +229,10 @@ class restore_courses extends \core\task\scheduled_task {
                     echo "\n\t" . get_string('successrestored', 'local_sandbox', $shortname) . "\n";
 
                     // Inform admin.
-                    local_sandbox_inform_admin(get_string('successrestored', 'local_sandbox', $shortname),
-                            SANDBOX_LEVEL_NOTICE);
+                    local_sandbox_inform_admin(
+                        get_string('successrestored', 'local_sandbox', $shortname),
+                        SANDBOX_LEVEL_NOTICE
+                    );
 
                     // Log the event.
                     $logevent = \local_sandbox\event\course_restored::create([
@@ -236,15 +258,17 @@ class restore_courses extends \core\task\scheduled_task {
                     echo "\n\t" . get_string('skippingdbupdatedfailed', 'local_sandbox', $shortname) . "\n";
 
                     // Inform admin.
-                    local_sandbox_inform_admin(get_string('skippingdbupdatefailed', 'local_sandbox', $shortname),
-                            SANDBOX_LEVEL_WARNING);
+                    local_sandbox_inform_admin(
+                        get_string('skippingdbupdatefailed', 'local_sandbox', $shortname),
+                        SANDBOX_LEVEL_WARNING
+                    );
 
                     continue;
                 }
             }
 
             // Output info message for cron listing.
-            echo "\n\t".get_string('noticerestorecount', 'local_sandbox', $count)."\n";
+            echo "\n\t" . get_string('noticerestorecount', 'local_sandbox', $count) . "\n";
 
             // Inform admin.
             local_sandbox_inform_admin(get_string('noticerestorecount', 'local_sandbox', $count), SANDBOX_LEVEL_NOTICE);
@@ -252,7 +276,7 @@ class restore_courses extends \core\task\scheduled_task {
             // Otherwise, we don't have to restore anything.
         } else {
             // Output info message for cron listing.
-            echo "\n\t".get_string('noticenocoursebackups', 'local_sandbox')."\n";
+            echo "\n\t" . get_string('noticenocoursebackups', 'local_sandbox') . "\n";
 
             // Inform admin.
             local_sandbox_inform_admin(get_string('noticenocoursebackups', 'local_sandbox'), SANDBOX_LEVEL_NOTICE);
