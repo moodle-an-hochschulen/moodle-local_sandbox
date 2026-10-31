@@ -89,8 +89,8 @@ function local_sandbox_getfiles() {
         $filename = $file->get_filename();
 
         // Check if we really have a backup file.
-        $isbackup = strpos($filename, '.mbz');
-        if (!$isbackup) {
+        // The extension is compared case-insensitively, just like the accepted_types check of the filemanager does.
+        if (core_text::strtolower(substr($filename, -4)) !== '.mbz') {
             continue;
         }
 
