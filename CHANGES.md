@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-31 - Fix the default state of the scheduled task in the 'Scheduled Tasks' section of README.md.
+
 ### v4.5-r4
 
 * 2026-02-07 - Bugfix: Take restore settings from plugin settings and backup file instead of course restore settings, resolves #8.

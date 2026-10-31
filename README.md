@@ -139,7 +139,7 @@ This plugin also introduces these additional scheduled tasks:
 ### \local_sandbox\task\restore_courses
 
 This task is the core of this plugin and resets the configured courses (see above for details).\
-By default, the task is enabled and runs every sunday on 1:00.
+By default, the task is disabled and, once enabled, runs every sunday on 1:00.
 
 
 How this plugin works
