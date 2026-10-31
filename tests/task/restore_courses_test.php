@@ -163,23 +163,51 @@ final class restore_courses_test extends \advanced_testcase {
      * @return string The path of the archive.
      */
     private function create_newer_backup(): string {
+        return $this->create_modified_backup(
+            'moodle_backup.xml',
+            '~<moodle_version>[^<]*</moodle_version>~',
+            '<moodle_version>9999999999.00</moodle_version>'
+        );
+    }
+
+    /**
+     * Create a copy of the course backup fixture which contains the given course end date.
+     *
+     * The course backup fixture itself does not contain a course end date.
+     *
+     * @param int $enddate
+     * @return string The path of the archive.
+     */
+    private function create_backup_with_enddate(int $enddate): string {
+        return $this->create_modified_backup(
+            'course/course.xml',
+            '~<enddate>[^<]*</enddate>~',
+            '<enddate>' . $enddate . '</enddate>'
+        );
+    }
+
+    /**
+     * Create a copy of the course backup fixture with a modified XML file.
+     *
+     * @param string $xmlfile The path of the XML file within the backup.
+     * @param string $pattern The regular expression to search for in the XML file.
+     * @param string $replacement The replacement for the matches.
+     * @return string The path of the archive.
+     */
+    private function create_modified_backup(string $xmlfile, string $pattern, string $replacement): string {
         $packer = get_file_packer('application/vnd.moodle.backup');
         $dir = make_request_directory();
         $packer->extract_to_pathname($this->get_sandbox_fixture_path(), $dir);
 
-        $xmlpath = $dir . '/moodle_backup.xml';
-        $xml = preg_replace(
-            '~<moodle_version>[^<]*</moodle_version>~',
-            '<moodle_version>9999999999.00</moodle_version>',
-            file_get_contents($xmlpath)
-        );
+        $xmlpath = $dir . '/' . $xmlfile;
+        $xml = preg_replace($pattern, $replacement, file_get_contents($xmlpath));
         file_put_contents($xmlpath, $xml);
 
         $files = [];
         foreach (get_directory_list($dir) as $relativepath) {
             $files[$relativepath] = $dir . '/' . $relativepath;
         }
-        $path = make_request_directory() . '/newer.mbz';
+        $path = make_request_directory() . '/modified.mbz';
         $packer->archive_to_pathname($files, $path);
         return $path;
     }
@@ -431,10 +459,42 @@ final class restore_courses_test extends \advanced_testcase {
         } else {
             $this->assertLessThan($before, $course->startdate);
         }
+        // A course without an end date must not get one.
+        $this->assertEquals(0, $course->enddate);
         $this->assertCount(1, $this->get_events(\core\event\course_restored::class));
         $this->assertCount(1, $this->get_events(\local_sandbox\event\course_restored::class));
         $this->assertCount(1, $this->get_events(\core\event\course_created::class));
         $this->assertCount(0, $this->get_events(\core\event\course_updated::class));
+    }
+
+    /**
+     * Test that the "Adjust course start date" setting shifts the course end date by the same offset.
+     *
+     * @testWith [0]
+     *           [1]
+     * @param int $adjustcoursestartdate
+     */
+    public function test_adjustcoursestartdate_shifts_enddate(int $adjustcoursestartdate): void {
+        global $DB;
+
+        // The course start date in the course backup fixture is 2000-01-01, the course duration is set to 365 days.
+        $backupstartdate = 946684800;
+        $duration = 365 * DAYSECS;
+
+        set_config('adjustcoursestartdate', $adjustcoursestartdate, 'local_sandbox');
+        $this->create_sandbox_course();
+        $this->add_backup_file(self::SHORTNAME . '.mbz', $this->create_backup_with_enddate($backupstartdate + $duration));
+        $before = time();
+
+        $this->run_task();
+
+        $course = $DB->get_record('course', ['shortname' => self::SHORTNAME], '*', MUST_EXIST);
+        if ($adjustcoursestartdate == 1) {
+            $this->assertGreaterThanOrEqual($before, $course->startdate);
+        } else {
+            $this->assertEquals($backupstartdate, $course->startdate);
+        }
+        $this->assertEquals($duration, $course->enddate - $course->startdate);
     }
 
     /**
