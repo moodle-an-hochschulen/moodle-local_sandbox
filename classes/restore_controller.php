@@ -22,6 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_sandbox;
+
+use backup;
+use base_setting;
+use restore_controller_dbops;
+
 /**
  * This class inherits basically everything from restore_controller except the fact that it applies the plugin's restore settings.
  *
@@ -29,7 +35,7 @@
  * @copyright  2014 Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_sandbox_restore_controller extends restore_controller {
+class restore_controller extends \restore_controller {
     /**
      * Apply the plugin-specific restore settings
      */

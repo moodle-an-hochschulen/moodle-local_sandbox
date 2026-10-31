@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-31 - Improvement: Move the restore controller class from the legacy class name local_sandbox_restore_controller to the namespaced class name local_sandbox\restore_controller.
 * 2026-10-31 - Bugfix: Detect course backup files by a case-insensitive check of the .mbz extension at the end of the filename instead of a case-sensitive search anywhere in the filename, which silently ignored course backup files with an uppercase extension like COURSE.MBZ.
 * 2026-10-31 - Bugfix: Shift the course end date by the same offset as the course start date if the 'Adjust course start date' setting is enabled instead of keeping the course end date from the course backup file which might be before the new course start date.
 * 2026-10-31 - Improvement: Roll back an unfinished database transaction if the course restore throws an exception, before the next course backup file is processed.
