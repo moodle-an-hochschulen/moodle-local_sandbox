@@ -169,7 +169,7 @@ class restore_courses extends \core\task\scheduled_task {
                 $controller = null;
                 $transactionstartedbefore = $DB->is_transaction_started();
                 try {
-                    $controller = new \local_sandbox_restore_controller(
+                    $controller = new \local_sandbox\restore_controller(
                         $backupid,
                         $newcourseid,
                         \backup::INTERACTIVE_NO,
