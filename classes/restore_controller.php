@@ -37,7 +37,7 @@ class local_sandbox_restore_controller extends restore_controller {
         $this->log('applying restore defaults', backup::LOG_DEBUG);
         restore_controller_dbops::apply_config_defaults($this);
 
-        /* KIZ MODIFICATION START
+        /* MaH MODIFICATION START
            REASON: Overwrite default restore settings with plugin-specific restore settings. */
         $settings = [
                 'restore_general_users' => 'users',
@@ -75,7 +75,7 @@ class local_sandbox_restore_controller extends restore_controller {
                 }
             }
         }
-        /* KIZ MODIFICATION END */
+        /* MaH MODIFICATION END */
 
         $this->set_status(backup::STATUS_CONFIGURED);
     }
