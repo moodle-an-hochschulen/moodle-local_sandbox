@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-31 - Bugfix: Shift the course end date by the same offset as the course start date if the 'Adjust course start date' setting is enabled instead of keeping the course end date from the course backup file which might be before the new course start date.
 * 2026-10-31 - Improvement: Roll back an unfinished database transaction if the course restore throws an exception, before the next course backup file is processed.
 * 2026-10-31 - Improvement: Close the restore log file if the course backup file is not in the Moodle 2 backup format.
 * 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the restore prechecks report errors instead of restoring the course anyway.
