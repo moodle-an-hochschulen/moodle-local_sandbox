@@ -253,8 +253,16 @@ class restore_courses extends \core\task\scheduled_task {
                 //   so there aren't any stale caches which would have to be purged by update_course().
 
                 // Adjust course start date.
+                // The course end date is shifted by the same offset to keep the course duration. Otherwise, it would keep
+                // the date saved in the course backup file and might end up before the new course start date.
                 if ($localsandboxconfig->adjustcoursestartdate == true) {
-                    if (!$DB->update_record('course', (object)['id' => $newcourseid, 'startdate' => time()])) {
+                    $restoredcourse = $DB->get_record('course', ['id' => $newcourseid], 'id, startdate, enddate');
+                    $now = time();
+                    $coursedates = (object)['id' => $newcourseid, 'startdate' => $now];
+                    if (!empty($restoredcourse->enddate)) {
+                        $coursedates->enddate = $restoredcourse->enddate + ($now - $restoredcourse->startdate);
+                    }
+                    if (!$DB->update_record('course', $coursedates)) {
                         // Output error message for cron listing.
                         echo "\n\t" . get_string('skippingadjuststartdatefailed', 'local_sandbox', $shortname) . "\n";
 
