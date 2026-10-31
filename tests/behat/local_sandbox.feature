@@ -120,7 +120,8 @@ Feature: Configuring the sandbox plugin
   # If the course gets a new ID we would check that there's the error message
   # "Can't find data record in database table course". However behat fails the
   # step because of the Moodle exception.
-  # So this counter check is not testable.
+  # So this counter check is not testable with Behat.
+  # It is tested with PHPUnit instead (see test_successful_restore() in tests/task/restore_courses_test.php).
   # Scenario: Counter check: Disable "Keep course ID"
 
   # We do not test this setting
@@ -200,8 +201,8 @@ Feature: Configuring the sandbox plugin
   # We do not test this setting
   # Scenario: Enable "Include competencies" setting
 
-  # We do not test this setting
+  # This setting is tested with PHPUnit instead (see test_email_recipients() in tests/task/restore_courses_test.php).
   # Scenario: Enable "Email failures to" setting
 
-  # We do not test this setting
+  # This setting is tested with PHPUnit instead (see test_email_threshold() in tests/task/restore_courses_test.php).
   # Scenario: Enable "Email Threshold" setting
