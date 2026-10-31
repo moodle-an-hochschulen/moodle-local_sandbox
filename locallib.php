@@ -32,7 +32,7 @@ define('SANDBOX_LEVEL_ERROR', 3);
  *
  * @param string $message The message
  * @param int $level Notification level
- * @return boolean
+ * @return bool
  */
 function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
     // Get recipients.
@@ -58,10 +58,15 @@ function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
     }
 
     // Send mail.
+    $success = true;
     foreach ($recipients as $r) {
         // Email the admin directly rather than putting these through the messaging system.
-        email_to_user($r, \core\user::get_support_user(), $subject, $message);
+        if (!email_to_user($r, \core\user::get_support_user(), $subject, $message)) {
+            $success = false;
+        }
     }
+
+    return $success;
 }
 
 
