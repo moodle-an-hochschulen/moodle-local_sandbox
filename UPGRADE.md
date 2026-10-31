@@ -14,13 +14,15 @@ General
 Upstream changes
 ----------------
 
-* This plugin does not inherit or copy anything from upstream sources.
+* This plugin inherits from the core restore_controller class in classes/restore_controller.php and overrides apply_defaults() with a modified copy of the core method (see the "MaH MODIFICATION" block). When upgrading, compare it with restore_controller::apply_defaults() in backup/controller/restore_controller.class.php and adopt upstream changes.
+* The scheduled task relies on the restore controller's precheck results (the 'errors' and 'warnings' keys of get_precheck_results()) and on backup::STATUS_REQUIRE_CONV. When upgrading, check that these are still provided by core.
 
 
 Automated tests
 ---------------
 
 * The plugin has a good coverage with Behat tests which test most of the plugin's user stories.
+* The plugin has PHPUnit tests which cover the scheduled task including its error handling. To trigger the restore precheck errors and warnings and the unsupported backup format, these tests rely on core restore behaviour. If these tests fail after upgrading, check if core has changed this behaviour before you suspect a bug in the plugin.
 
 
 Manual tests
