@@ -244,13 +244,13 @@ class restore_courses extends \core\task\scheduled_task {
                 }
 
                 // The following course adjustments are written directly to the database instead of using update_course().
-                // This is done on purpose, just like the restore itself writes the course record directly:
-                // - update_course() is meant for course edits by a user and would trigger additional hooks and a
-                //   course_updated event for each adjustment, whereas we fire the appropriate core event once below.
-                // - update_course() throws exceptions on validation errors which would have to be caught to keep
-                //   processing the remaining backup files.
-                // - The values are written right after the restore and before anything has read the course again,
-                //   so there aren't any stale caches which would have to be purged by update_course().
+                // This is done on purpose, just like the restore itself writes the course record directly.
+                // First, update_course() is meant for course edits by a user and would trigger additional hooks and a
+                // course_updated event for each adjustment, whereas we fire the appropriate core event once below.
+                // Second, update_course() throws exceptions on validation errors which would have to be caught to keep
+                // processing the remaining backup files.
+                // Third, the values are written right after the restore and before anything has read the course again,
+                // so there aren't any stale caches which would have to be purged by update_course().
 
                 // Adjust course start date.
                 // The course end date is shifted by the same offset to keep the course duration. Otherwise, it would keep
