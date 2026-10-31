@@ -6,7 +6,19 @@ Changes
 
 ### Unreleased
 
-* 2026-10-31 - Fix the default state of the scheduled task in the 'Scheduled Tasks' section of README.md.
+* 2026-10-31 - Improvement: Roll back an unfinished database transaction if the course restore throws an exception, before the next course backup file is processed.
+* 2026-10-31 - Improvement: Close the restore log file if the course backup file is not in the Moodle 2 backup format.
+* 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the restore prechecks report errors instead of restoring the course anyway.
+* 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the course restore throws an exception instead of aborting the whole scheduled task run.
+* 2026-10-31 - Improvement: Print restore precheck warnings to the scheduled task log.
+* 2026-10-31 - Improvement: Destroy the restore controller after each restore.
+* 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the course backup file is not in the Moodle 2 backup format instead of aborting the whole scheduled task run.
+* 2026-10-31 - Bugfix: Fix the misspelled language string identifier in the cron log message for failed course database updates.
+* 2026-10-31 - Bugfix: Show the course shortname instead of a placeholder in the cron log message for failed unzipping of course backup files.
+* 2026-10-31 - Bugfix: Fire the course_updated event instead of the course_created event after the restore if the "Keep course ID" setting is enabled.
+* 2026-10-31 - Tests: Add PHPUnit tests for the restore courses scheduled task.
+* 2026-10-31 - Documentation: Document the inherited core restore controller code, the used core restore APIs and the PHPUnit tests in UPGRADE.md.
+* 2026-10-31 - Documentation: Fix the default state of the scheduled task in the 'Scheduled Tasks' section of README.md.
 
 ### v5.1-r2
 
