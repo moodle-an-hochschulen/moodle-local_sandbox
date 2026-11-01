@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-31 - Tests: Implement the Behat scenarios for all settings which were commented out so far, using a new Behat step which backs up the current course content to the sandbox course backup filearea on the fly.
 * 2026-10-31 - Improvement: Return the result of sending the notification mails from local_sandbox_inform_admin() instead of returning nothing on its success path.
 * 2026-10-31 - Improvement: Move the restore controller class from the legacy class name local_sandbox_restore_controller to the namespaced class name local_sandbox\restore_controller.
 * 2026-10-31 - Bugfix: Detect course backup files by a case-insensitive check of the .mbz extension at the end of the filename instead of a case-sensitive search anywhere in the filename, which silently ignored course backup files with an uppercase extension like COURSE.MBZ.
