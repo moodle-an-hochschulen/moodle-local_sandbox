@@ -22,6 +22,7 @@ Automated tests
 ---------------
 
 * The plugin has a good coverage with Behat tests which test most of the plugin's user stories.
+* The Behat scenarios for the 'Email failures to' and 'Email Threshold' settings need an email catcher (TEST_EMAILCATCHER_MAIL_SERVER and TEST_EMAILCATCHER_API_SERVER in config.php), otherwise they are skipped.
 * The plugin has PHPUnit tests which cover the scheduled task including its error handling. To trigger the restore precheck errors and warnings and the unsupported backup format, these tests rely on core restore behaviour. If these tests fail after upgrading, check if core has changed this behaviour before you suspect a bug in the plugin.
 
 
@@ -29,7 +30,6 @@ Manual tests
 ------------
 
 * There aren't any manual tests needed to upgrade this plugin.
-* However, if you look at the Behat feature file, you will see that there are some scenarios still commented out. If you have time, you should test them manually or write a Behat test for it.
 
 
 Visual checks

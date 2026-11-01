@@ -173,7 +173,7 @@ final class restore_courses_test extends \advanced_testcase {
     /**
      * Create a copy of the course backup fixture which contains the given course end date.
      *
-     * The course backup fixture itself does not contain a course end date.
+     * The course backup fixture itself contains the course end date 2001-01-01.
      *
      * @param int $enddate
      * @return string The path of the archive.
@@ -448,7 +448,7 @@ final class restore_courses_test extends \advanced_testcase {
 
         set_config('adjustcoursestartdate', $adjustcoursestartdate, 'local_sandbox');
         $this->create_sandbox_course(['startdate' => 946684800]);
-        $this->add_backup_file(self::SHORTNAME . '.mbz', $this->get_sandbox_fixture_path());
+        $this->add_backup_file(self::SHORTNAME . '.mbz', $this->create_backup_with_enddate(0));
         $before = time();
 
         $this->run_task();
