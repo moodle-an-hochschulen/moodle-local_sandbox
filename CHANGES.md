@@ -4,6 +4,27 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-31 - Tests: Implement the Behat scenarios for all settings which were commented out so far, using a new Behat step which backs up the current course content to the sandbox course backup filearea on the fly.
+* 2026-10-31 - Improvement: Return the result of sending the notification mails from local_sandbox_inform_admin() instead of returning nothing on its success path.
+* 2026-10-31 - Improvement: Move the restore controller class from the legacy class name local_sandbox_restore_controller to the namespaced class name local_sandbox\restore_controller.
+* 2026-10-31 - Bugfix: Detect course backup files by a case-insensitive check of the .mbz extension at the end of the filename instead of a case-sensitive search anywhere in the filename, which silently ignored course backup files with an uppercase extension like COURSE.MBZ.
+* 2026-10-31 - Bugfix: Shift the course end date by the same offset as the course start date if the 'Adjust course start date' setting is enabled instead of keeping the course end date from the course backup file which might be before the new course start date.
+* 2026-10-31 - Improvement: Roll back an unfinished database transaction if the course restore throws an exception, before the next course backup file is processed.
+* 2026-10-31 - Improvement: Close the restore log file if the course backup file is not in the Moodle 2 backup format.
+* 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the restore prechecks report errors instead of restoring the course anyway.
+* 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the course restore throws an exception instead of aborting the whole scheduled task run.
+* 2026-10-31 - Improvement: Print restore precheck warnings to the scheduled task log.
+* 2026-10-31 - Improvement: Destroy the restore controller after each restore.
+* 2026-10-31 - Bugfix: Skip the course backup file and inform the admin if the course backup file is not in the Moodle 2 backup format instead of aborting the whole scheduled task run.
+* 2026-10-31 - Bugfix: Fix the misspelled language string identifier in the cron log message for failed course database updates.
+* 2026-10-31 - Bugfix: Show the course shortname instead of a placeholder in the cron log message for failed unzipping of course backup files.
+* 2026-10-31 - Bugfix: Fire the course_updated event instead of the course_created event after the restore if the "Keep course ID" setting is enabled.
+* 2026-10-31 - Tests: Add PHPUnit tests for the restore courses scheduled task.
+* 2026-10-31 - Documentation: Document the inherited core restore controller code, the used core restore APIs and the PHPUnit tests in UPGRADE.md.
+* 2026-10-31 - Documentation: Fix the default state of the scheduled task in the 'Scheduled Tasks' section of README.md.
+
 ### v5.3-r1
 
 * 2026-10-05 - Prepare compatibility for Moodle 5.3.
