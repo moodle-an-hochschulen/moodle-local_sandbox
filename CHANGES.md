@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v5.3-r2
 
 * 2026-10-31 - Tests: Implement the Behat scenarios for all settings which were commented out so far, using a new Behat step which backs up the current course content to the sandbox course backup filearea on the fly.
 * 2026-10-31 - Improvement: Return the result of sending the notification mails from local_sandbox_inform_admin() instead of returning nothing on its success path.
