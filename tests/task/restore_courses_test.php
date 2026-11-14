@@ -48,6 +48,11 @@ final class restore_courses_test extends \advanced_testcase {
         parent::setUp();
         $this->resetAfterTest();
 
+        // The notifications are sent through the Message API which buffers the delivery to the message processors
+        // (and thus the emails) as long as a database transaction is open. As PHPUnit would wrap the test in a
+        // database transaction, the database must be reset without a rollback to be able to check the sent emails.
+        $this->preventResetByRollback();
+
         // Send all notifications (also the notices) to the admin.
         set_config('notifyonerrors', get_admin()->id, 'local_sandbox');
         set_config('notifylevel', SANDBOX_LEVEL_NOTICE, 'local_sandbox');
@@ -736,5 +741,44 @@ final class restore_courses_test extends \advanced_testcase {
         $expectedemails = array_map(fn($user) => $users[$user]->email, $expectedrecipients);
         sort($expectedemails);
         $this->assertEquals($expectedemails, $recipients);
+    }
+
+    /**
+     * Test that the notifications are sent through the message provider of the plugin and respect the notification
+     * preferences of the recipients.
+     */
+    public function test_notification_message_provider(): void {
+        global $DB;
+
+        $admin = get_admin();
+
+        // Without course backup files, there is exactly one notification.
+        $this->run_task();
+
+        // The notification was sent by email and stored as notification of the plugin's message provider.
+        $this->assertCount(1, $this->mailsink->get_messages());
+        $notifications = $DB->get_records('notifications', [
+            'useridto' => $admin->id,
+            'component' => 'local_sandbox',
+            'eventtype' => 'restorenotification',
+        ]);
+        $this->assertCount(1, $notifications);
+        $notification = reset($notifications);
+        $this->assertEquals(get_string('emailsubjectnotice', 'local_sandbox'), $notification->subject);
+        $this->assertStringContainsString(get_string('noticenocoursebackups', 'local_sandbox'), $notification->fullmessage);
+
+        // If the recipient disables the email delivery in their notification preferences, no email is sent anymore,
+        // but the notification is still delivered.
+        set_user_preference('message_provider_local_sandbox_restorenotification_enabled', 'popup', $admin);
+        $this->mailsink->clear();
+
+        $this->run_task();
+
+        $this->assertCount(0, $this->mailsink->get_messages());
+        $this->assertEquals(2, $DB->count_records('notifications', [
+            'useridto' => $admin->id,
+            'component' => 'local_sandbox',
+            'eventtype' => 'restorenotification',
+        ]));
     }
 }

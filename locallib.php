@@ -28,7 +28,10 @@ define('SANDBOX_LEVEL_ERROR', 3);
 
 
 /**
- * Helper function for sending notification mails
+ * Helper function for sending notifications to the configured admins.
+ *
+ * The notifications are sent with the Message API, so the recipients can control in their notification preferences how
+ * they receive them (by default by email and as popup notification).
  *
  * @param string $message The message
  * @param int $level Notification level
@@ -57,11 +60,24 @@ function local_sandbox_inform_admin($message, $level = SANDBOX_LEVEL_NOTICE) {
         $subject = get_string('emailsubjectnotice', 'local_sandbox');
     }
 
-    // Send mail.
+    // Send notification.
     $success = true;
     foreach ($recipients as $r) {
-        // Email the admin directly rather than putting these through the messaging system.
-        if (!email_to_user($r, \core\user::get_support_user(), $subject, $message)) {
+        $messagedata = new \core\message\message();
+        $messagedata->courseid = SITEID;
+        $messagedata->component = 'local_sandbox';
+        $messagedata->name = 'restorenotification';
+        $messagedata->userfrom = \core\user::get_support_user();
+        $messagedata->userto = $r;
+        $messagedata->subject = $subject;
+        $messagedata->fullmessage = $message;
+        $messagedata->fullmessageformat = FORMAT_PLAIN;
+        $messagedata->fullmessagehtml = '';
+        $messagedata->smallmessage = $message;
+        $messagedata->notification = 1;
+        $messagedata->contexturl = (new \moodle_url('/admin/settings.php', ['section' => 'sandbox']))->out(false);
+        $messagedata->contexturlname = get_string('pluginname', 'local_sandbox');
+        if (!message_send($messagedata)) {
             $success = false;
         }
     }
