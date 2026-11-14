@@ -57,14 +57,10 @@ function xmldb_local_sandbox_upgrade($oldversion) {
         $handle = @opendir($coursebackupsdirectory);
 
         if ($handle) {
-            // Array to remember file to be deleted from course backups directory.
-            $todelete = [];
-
             // Fetch all files from course backups directory.
             while (false !== ($file = readdir($handle))) {
-                // Only process .mbz files.
-                $isbackup = strpos($file, '.mbz');
-                if (!$isbackup) {
+                // Only process files with the .mbz filename extension.
+                if (core_text::strtolower(substr($file, -4)) !== '.mbz') {
                     continue;
                 }
 
@@ -74,9 +70,6 @@ function xmldb_local_sandbox_upgrade($oldversion) {
 
                 // Put file into filearea.
                 $fs->create_file_from_pathname($filerecord, $fullpath);
-
-                // Remember file to be deleted.
-                $todelete[] = $fullpath;
             }
 
             // Close course backups directory.
