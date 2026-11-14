@@ -98,7 +98,9 @@ class restore_courses extends \core\task\scheduled_task {
                 // Do only if the course should be reset into a new course.
                 if ($localsandboxconfig->keepcourseid != 1) {
                     // Delete existing course.
-                    if (!delete_course($oldcourseid, false)) {
+                    // The course is always deleted synchronously, even if asynchronous course deletion is enabled on
+                    // the site, as the course must be gone before it is recreated with the same shortname.
+                    if (!delete_course($oldcourseid, false, false)) {
                         // Output error message for cron listing.
                         echo "\n\t" . get_string('skippingdeletionfailed', 'local_sandbox', $shortname) . "\n";
 
