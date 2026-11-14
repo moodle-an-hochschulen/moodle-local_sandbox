@@ -406,6 +406,36 @@ final class restore_courses_test extends \advanced_testcase {
     }
 
     /**
+     * Test that the existing course is deleted synchronously even if asynchronous course deletion is enabled on the site.
+     *
+     * Otherwise, the existing course would only be marked for deletion and would still exist next to the recreated
+     * course with the same shortname.
+     */
+    public function test_restore_with_async_course_deletion(): void {
+        global $DB;
+
+        set_config('enablecourseasyncdeletion', 1, 'moodlecourse');
+        set_config('keepcourseid', 0, 'local_sandbox');
+        $oldcourse = $this->create_sandbox_course();
+        $this->add_backup_file(self::SHORTNAME . '.mbz', $this->get_sandbox_fixture_path());
+
+        $output = $this->run_task();
+
+        $this->assertStringContainsString(get_string('successrestored', 'local_sandbox', self::SHORTNAME), $output);
+        $this->assertStringContainsString(get_string('noticerestorecount', 'local_sandbox', 1), $output);
+
+        // The old course is gone and there is exactly one course with the shortname.
+        $this->assertFalse($DB->record_exists('course', ['id' => $oldcourse->id]));
+        $this->assertEquals(1, $DB->count_records('course', ['shortname' => self::SHORTNAME]));
+        $this->assertEquals(['forum', 'label'], $this->get_activity_names(self::SHORTNAME));
+
+        // The course deletion has not been deferred to an adhoc task.
+        $this->assertCount(0, \core\task\manager::get_adhoc_tasks(\core_course\task\course_async_deletion::class));
+        $this->assertCount(1, $this->get_events(\core\event\course_deleted::class));
+        $this->assertCount(1, $this->get_events(\core\event\course_created::class));
+    }
+
+    /**
      * Data provider for test_keepcoursename.
      *
      * @return array
