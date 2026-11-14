@@ -561,3 +561,22 @@ Feature: Configuring the sandbox plugin
       | Notice    | 3          |
       | Warning   | 1          |
       | Error     | 0          |
+
+  # The delivery of the notifications through the message provider is also tested with PHPUnit
+  # (see test_notification_message_provider() in tests/task/restore_courses_test.php).
+  Scenario: Show the notifications in the notification popover
+    Given the following config values are set as admin:
+      | config      | value | plugin        |
+      | notifylevel | 1     | local_sandbox |
+    And I log in as "admin"
+    And I navigate to "Courses > Sandbox" in site administration
+    And I set the field "Email failures to" to "Admin User"
+    And I press "Save changes"
+    When I run the scheduled task "local_sandbox\task\restore_courses"
+    And I reload the page
+    And I open the notification popover
+    Then I should see "NOTICE: Sandbox" in the "#nav-notification-popover-container" "css_element"
+    # The popover lists the newest notification first, which is the notice with the number of restored courses
+    # as this is sent by the task at the very end.
+    And I click on "View full notification" "link" in the "#nav-notification-popover-container" "css_element"
+    And I should see "NOTICE: Sandbox has restored 1 courses" in the "[data-region='notification-area']" "css_element"
