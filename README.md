@@ -71,6 +71,10 @@ Please note, that local_sandbox does not validate if the uploaded course backup 
 
 As local_sandbox acts automatically, it can inform you when failures or problems occur. In this section, you can define who should be notified and which failures or problems should be reported.
 
+The notifications are sent through the Moodle messaging system with the 'Sandbox course restore notifications' message provider.
+
+Please note that the 'Email failures to' setting alone decides who receives the notifications through the Moodle messaging system, while the notification preferences only control how the notification is delivered to a recipient. As the message provider is available to all users with the moodle/site:config capability, it also shows up in the notification preferences of administrators who are not selected in the 'Email failures to' setting. Changing the preferences there has no effect as long as they are not selected in this setting. This is the same approach as Moodle core uses for features like the course request notifications.
+
 
 Emails sent by cronjob
 ----------------------
@@ -140,6 +144,17 @@ This plugin also introduces these additional scheduled tasks:
 
 This task is the core of this plugin and resets the configured courses (see above for details).\
 By default, the task is disabled and, once enabled, runs every sunday on 1:00.
+
+
+Message providers
+-----------------
+
+This plugin also introduces these additional message providers:
+
+### local_sandbox/restorenotification
+
+This message provider delivers the notifications about the restore of the sandbox courses (notices, warnings and errors, depending on the configured threshold) to the users who are configured in the plugin's notification settings.\
+By default, this message provider is enabled for the email and popup outputs. Only users with the moodle/site:config capability can receive the messages.
 
 
 How this plugin works
