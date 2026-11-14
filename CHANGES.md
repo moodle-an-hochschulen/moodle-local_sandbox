@@ -4,6 +4,10 @@ moodle-local_sandbox
 Changes
 -------
 
+### Unreleased
+
+* 2026-11-12 - Cleanup: Remove the unused list of legacy course backup files from the 2018020902 upgrade step and detect course backup files there by the .mbz extension at the end of the filename instead of a search anywhere in the filename.
+
 ### v5.3-r2
 
 * 2026-10-31 - Tests: Implement the Behat scenarios for all settings which were commented out so far, using a new Behat step which backs up the current course content to the sandbox course backup filearea on the fly.
