@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ateeducacion.github.io/moodle-playground/assets/blueprints/blueprint-schema.json",
+  "preferredVersions": {
+    "php": "8.4",
+    "moodle": "5.2"
+  },
+  "landingPage": "/admin/settings.php?section=sandbox",
+  "constants": {
+    "ADMIN_USER": "admin",
+    "ADMIN_PASS": "test",
+    "ADMIN_EMAIL": "admin@example.com"
+  },
+  "steps": [
+    {
+      "step": "installMoodle",
+      "options": {
+        "adminUser": "{{ADMIN_USER}}",
+        "adminPass": "{{ADMIN_PASS}}",
+        "adminEmail": "{{ADMIN_EMAIL}}",
+        "siteName": "Sandbox Plugin Demo",
+        "locale": "en",
+        "timezone": "Europe/Madrid"
+      }
+    },
+    {
+      "step": "login",
+      "username": "{{ADMIN_USER}}"
+    },
+    {
+      "step": "installMoodlePlugin",
+      "pluginType": "local",
+      "pluginName": "sandbox",
+      "url": "https://github.com/moodle-an-hochschulen/moodle-local_sandbox/archive/refs/heads/main.zip"
+    },
+    {
+      "step": "runPhpCode",
+      "code": "if (!defined('CLI_SCRIPT')) { define('CLI_SCRIPT', true); }\nrequire('/www/moodle/config.php');\nrequire_once($CFG->libdir . '/moodlelib.php');\nrequire_once($CFG->dirroot . '/course/lib.php');\nrequire_once($CFG->dirroot . '/local/sandbox/locallib.php');\ntry {\n    global $DB, $USER, $CFG;\n    $USER = get_admin();\n\n    // Restore synchronously so the scheduled task performs the restore inline.\n    set_config('enableasyncbackup', 0);\n\n    // Configure the plugin so its scheduled task can reset the sandbox course.\n    set_config('adjustcoursestartdate', 1, 'local_sandbox');\n    set_config('keepcourseid', 1, 'local_sandbox');\n    set_config('keepcoursename', 1, 'local_sandbox');\n    set_config('restore_general_users', 0, 'local_sandbox');\n    set_config('restore_general_enrolments', 2, 'local_sandbox');\n    set_config('restore_general_role_assignments', 0, 'local_sandbox');\n    set_config('restore_general_activities', 1, 'local_sandbox');\n    set_config('restore_general_blocks', 1, 'local_sandbox');\n    set_config('restore_general_filters', 0, 'local_sandbox');\n    set_config('restore_general_comments', 0, 'local_sandbox');\n    set_config('restore_general_badges', 0, 'local_sandbox');\n    set_config('restore_general_calendarevents', 0, 'local_sandbox');\n    set_config('restore_general_userscompletion', 0, 'local_sandbox');\n    set_config('restore_general_logs', 0, 'local_sandbox');\n    set_config('restore_general_histories', 0, 'local_sandbox');\n    set_config('restore_general_groups', 0, 'local_sandbox');\n    set_config('restore_general_competencies', 0, 'local_sandbox');\n    set_config('notifylevel', SANDBOX_LEVEL_ERROR, 'local_sandbox');\n    set_config('notifyonerrors', '', 'local_sandbox');\n\n    // Create the demo category and sandbox course from PHP so the setup is\n    // self-contained and does not depend on declarative blueprint steps.\n    $category = $DB->get_record('course_categories', ['name' => 'Sandbox Courses']);\n    if (!$category) {\n        $category = \\core_course_category::create((object) ['name' => 'Sandbox Courses']);\n    }\n    $categoryid = is_object($category) ? $category->id : $category;\n\n    // The sandbox course must exist and its shortname has to match the backup filename.\n    $course = $DB->get_record('course', ['shortname' => 'sandbox-test']);\n    if (!$course) {\n        $course = create_course((object) [\n            'fullname' => 'Sandbox Test Course',\n            'shortname' => 'sandbox-test',\n            'category' => $categoryid,\n            'summary' => 'Demo sandbox course that local_sandbox automatically resets from a bundled course backup.',\n            'summaryformat' => FORMAT_HTML,\n        ]);\n    }\n\n    // Upload the sample course backup that ships with the plugin (tests/fixtures)\n    // into the plugin's filearea, named <shortname>.mbz, so the task has something\n    // to restore.\n    $syscontext = \\context_system::instance();\n    $fs = get_file_storage();\n    if (!$fs->file_exists($syscontext->id, 'local_sandbox', 'coursebackups', 0, '/', 'sandbox-test.mbz')) {\n        $source = $CFG->dirroot . '/local/sandbox/tests/fixtures/sandbox-test.mbz';\n        if (!file_exists($source)) {\n            throw new \\RuntimeException('The bundled sandbox-test.mbz backup fixture was not found.');\n        }\n        $fs->create_file_from_pathname([\n            'contextid' => $syscontext->id,\n            'component' => 'local_sandbox',\n            'filearea'  => 'coursebackups',\n            'itemid'    => 0,\n            'filepath'  => '/',\n            'filename'  => 'sandbox-test.mbz',\n        ], $source);\n    }\n    // Reflect the uploaded file in the stored-file setting so it shows on the settings page.\n    set_config('coursebackups', '/sandbox-test.mbz', 'local_sandbox');\n\n    // Enable the (by default disabled) scheduled task so the setup looks production-ready.\n    $DB->execute(\n        'UPDATE {task_scheduled} SET disabled = 0 WHERE ' . $DB->sql_like('classname', ':cn'),\n        ['cn' => '%local_sandbox%restore_courses%']\n    );\n\n    // Run the sandbox restore once so the demo course is actually reset from the\n    // backup, proving the plugin works end to end. Keep provisioning resilient:\n    // even if the restore hiccups, the plugin stays installed and configured.\n    try {\n        ob_start();\n        try {\n            $task = new \\local_sandbox\\task\\restore_courses();\n            $task->execute();\n        } finally {\n            $restorestatus = ob_get_clean();\n        }\n    } catch (\\Throwable $re) {\n        $restorestatus = 'EXCEPTION: ' . $re->getMessage();\n    }\n\n    // The task recreates/clears the course; confirm it still exists.\n    if (!$DB->record_exists('course', ['shortname' => 'sandbox-test'])) {\n        throw new \\RuntimeException(\"The 'sandbox-test' sandbox course is missing after the restore run.\");\n    }\n\n    echo \"Provisioned local_sandbox demo: 'sandbox-test' course + sandbox-test.mbz backup, task enabled and executed.\\n\";\n    echo $restorestatus . \"\\n\";\n} catch (\\Throwable $e) {\n    fwrite(STDERR, 'local_sandbox demo provisioning failed: ' . $e->getMessage() . \"\\n\");\n}\n"
+    },
+    {
+      "step": "setLandingPage",
+      "path": "/admin/settings.php?section=sandbox"
+    }
+  ]
+}

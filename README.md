@@ -6,6 +6,20 @@ moodle-local_sandbox
 Moodle plugin which programatically restores courses to predefined course states. It can be used to provide playground moodle courses which will be cleaned periodically
 
 
+
+Try in Moodle Playground
+------------------------
+
+Click the badge below to open this plugin instantly in
+[Moodle Playground](https://moodle-playground.com) — a full Moodle site
+running in the browser, with no local install. The demo opens the plugin
+settings page with the scheduled task enabled and a sample course backup
+for the "sandbox-test" demo course, which is reset from the backup during
+setup so you can see local_sandbox working end to end.
+
+<a href="https://moodle-playground.com/?blueprint-url=https://raw.githubusercontent.com/moodle-an-hochschulen/moodle-local_sandbox/refs/heads/main/blueprint.json" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/ateeducacion/action-moodle-playground-pr-preview/refs/heads/main/assets/playground-preview-button.svg" alt="Preview in Moodle Playground" width="200"></a>
+
+
 Requirements
 ------------
 
