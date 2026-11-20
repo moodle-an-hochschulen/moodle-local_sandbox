@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v5.2-r3
 
 * 2026-11-14 - Improvement: Send the notifications to the admins through the Message API with the new 'Sandbox course restore notifications' message provider instead of sending them directly by email, so that the recipients can route or mute them in their notification preferences.
 * 2026-11-12 - Cleanup: Remove the unused list of legacy course backup files from the 2018020902 upgrade step and detect course backup files there by the .mbz extension at the end of the filename instead of a search anywhere in the filename.
