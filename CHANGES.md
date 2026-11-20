@@ -4,7 +4,7 @@ moodle-local_sandbox
 Changes
 -------
 
-### Unreleased
+### v5.3-r3
 
 * 2026-11-14 - Bugfix: Always delete the existing course synchronously before it is recreated, even if asynchronous course deletion is enabled on the site, as the existing course would otherwise only be marked for deletion and would still exist next to the recreated course with the same shortname.
 * 2026-11-14 - Improvement: Send the notifications to the admins through the Message API with the new 'Sandbox course restore notifications' message provider instead of sending them directly by email, so that the recipients can route or mute them in their notification preferences.
